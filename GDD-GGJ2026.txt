@@ -1,0 +1,72 @@
+
+
+Project Design Document
+01/26/2026
+Frank Gomez
+Project Concept1
+Player ControlYou control a 
+Cameleonin this  
+2D Metroidvaniagamewhere
+Arrows Keys or WASDmakes the player
+Makes the player move arround the screen, left, right or allow him to jum
+2
+Basic 
+GameplayDuring the game, 
+Main character have to get the treasure but have no way to reach it at the beginning.appearfrom 
+Left side of the screenand the goal of the game is to 
+Figure it out how to unlock the way to the treasure
+3
+Sound 
+& EffectsThere will be sound effects 
+description of sound effects
+and particle effects
+description of particle effects
+[optional] There will also be
+description of any other expected special effects or animation in the project.
+4
+Gameplay
+MechanicsAs the game progresses, 
+The main character will have to fight with some enemies, one he defeat this enemies they will drop a collectible. If the main character pick up the collectible instantaneity will transform in the same monster that he defeated before. Main character will be able to cancel the transformation at any point, but if he did it the only way to transform again is killing another monster of that kind. This transformations will allow the main character pass trough some inaccessible areas or beat some challenge that was impossible before.making it
+[optional] There will also be
+description of any other gameplay mechanic(s) and their effect on the game. 
+5
+User
+InterfaceThe 
+The UI Will indicate at the beginning basic controls inputs, like how to move and how to jump. At the top left will be the health bar of the main character.will 
+whenever
+At the start of the game, the title
+“Working titlewill appearand the game will end when
+condition to end the game.
+6
+Other Features
+Any other notes about the project that you don’t feel were addressed in the above.
+
+
+
+Project Timeline
+MilestoneDescriptionDue #1
+- Functional feature(s) by milestone #1
+mm/dd#2
+- Functional feature(s) by milestone #2
+mm/dd#3
+- Functional feature(s) by milestone #3
+mm/dd#4
+- Functional feature(s) by milestone #4
+mm/dd#5
+- Functional feature(s) by milestone #5
+mm/ddBacklog
+- Implement PlayerMovement2D
+- Player Can Die
+- Monster Can Die
+- Jump Mechanic
+- Game Manager
+  + Stage Selector
+  + Restart The level 
+- Player Can Lose (Game Over)
+- Player Can Receive Damage
+- Monsters Drop a collectible on Death
+- Player can Pick up the Mask and Get the power up
+mm/dd
+
+Project Sketch
+
