@@ -1,5 +1,4 @@
-﻿using _Project.Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewSpeedPowerUp", menuName = "PowerUps/SpeedBoost")]
 public class SpeedPowerUpSO : PowerUpEffectSO

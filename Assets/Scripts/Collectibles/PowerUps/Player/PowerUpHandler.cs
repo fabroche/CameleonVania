@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Threading;
-using _Project.Player;
 
 // Handler para manejar los powerups, va en el GameObject del jugador
 // Gestion los tiempos y los reinicios de los powerups

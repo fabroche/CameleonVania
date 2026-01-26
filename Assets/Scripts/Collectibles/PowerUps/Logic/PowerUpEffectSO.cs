@@ -1,5 +1,4 @@
-﻿using _Project.Player;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class PowerUpEffectSO : ScriptableObject
 {
