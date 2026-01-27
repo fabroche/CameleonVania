@@ -42,19 +42,30 @@ Defeat Enemy → Collect Mask → Transform → Gain Abilities → Explore New A
 - ✅ **Professional Camera System** - Cinemachine with dead zones and smooth follow
 - ✅ **Optimized Collision System** - Layer-based collision matrix
 
-### 🚧 In Progress (Day 2)
+### ✅ Implemented (Day 2 - Partial)
 
-- 🔄 **Health System** - Event-driven health management
-- 🔄 **Combat System** - Player attack with enemy detection
+- ✅ **Health System** - Event-driven health management with C# events
+- ✅ **Player Attack System** - Physics2D-based attack with cooldown and visual feedback
+- ✅ **Gizmos Debugging** - Visual debugging tools for development
+
+### 🚧 In Progress (Day 2 - Pending)
+
 - 🔄 **Enemy AI** - State machine-based behavior (Patrol, Chase, Attack)
+- 🔄 **Combat Loop Integration** - Complete Player ↔ Enemy combat system
 
-### 📅 Planned (Days 3-6)
+### 📅 Planned (Day 3 - Transformation System)
 
-- 📋 **Transformation System** - Core mechanic implementation
-- 📋 **Collectibles & Power-ups**
-- 📋 **UI/HUD System**
-- 📋 **Level Design**
-- 📋 **Audio & Polish**
+- 📋 **TransformationData ScriptableObject** - Data-driven transformation system
+- 📋 **PlayerTransform Component** - Transform into defeated enemies
+- 📋 **TransformMask Collectible** - Pickup items for transformation
+- 📋 **MaskDrop System** - Enemies drop masks on death
+
+### 📅 Planned (Days 4-6)
+
+- 📋 **UI/HUD System** - Health bars, transformation indicator
+- 📋 **Level Design** - Interconnected areas requiring different forms
+- 📋 **Audio & Polish** - Sound effects, music, visual effects
+- 📋 **Final Build** - Optimization and submission
 
 ---
 
@@ -86,11 +97,11 @@ Defeat Enemy → Collect Mask → Transform → Gain Abilities → Explore New A
 
 ### Controls
 
-| Action          | Key                     |
-| --------------- | ----------------------- |
-| Move Left/Right | `A/D` or `Arrow Keys`   |
-| Jump            | `Space`                 |
-| Attack          | `X` _(Coming in Day 2)_ |
+| Action          | Key                   |
+| --------------- | --------------------- |
+| Move Left/Right | `A/D` or `Arrow Keys` |
+| Jump            | `Space`               |
+| Attack          | `X`                   |
 
 ---
 
@@ -213,18 +224,36 @@ refactor/ → Code refactoring
 - [x] Jump and ground detection
 - [x] Camera follow system
 
-### Day 2 🔄 (27 Jan 2026)
+### Day 2 ⚠️ (27 Jan 2026) - 50% Complete
 
-- [ ] Health system with events
-- [ ] Player attack system
-- [ ] Enemy AI with state machine
+**Completed:**
 
-### Days 3-6 📅
+- [x] Health system with C# events (#9)
+- [x] Player attack system with cooldown (#10)
 
-- [ ] Transformation system (core mechanic)
-- [ ] Collectibles and power-ups
-- [ ] UI/HUD
-- [ ] Level design
+**Pending:**
+
+- [ ] Enemy AI with state machine (#11)
+- [ ] Combat loop integration (#13)
+
+### Day 3 📅 (28 Jan 2026) - Transformation System
+
+**Priority 1: Complete Day 2**
+
+- [ ] Enemy AI with state machine (#11)
+- [ ] Combat loop integration (#13)
+
+**Priority 2: Transformation System**
+
+- [ ] TransformationData ScriptableObject (#14)
+- [ ] PlayerTransform component (#15)
+- [ ] TransformMask collectible (#16)
+- [ ] MaskDrop on enemy death (#17)
+
+### Days 4-6 📅
+
+- [ ] UI/HUD system
+- [ ] Level design and interconnected areas
 - [ ] Audio and polish
 - [ ] Final build and submission
 
@@ -232,14 +261,14 @@ refactor/ → Code refactoring
 
 ## 🎯 Milestones
 
-| Milestone        | Target Date | Status         |
-| ---------------- | ----------- | -------------- |
-| First Playable   | Day 1       | ✅ Complete    |
-| Combat System    | Day 2       | 🔄 In Progress |
-| Core Mechanic    | Day 3       | 📅 Planned     |
-| Alpha Build      | Day 4       | 📅 Planned     |
-| Beta Build       | Day 5       | 📅 Planned     |
-| Final Submission | Day 6       | 📅 Planned     |
+| Milestone             | Target Date | Status      | Issues                   |
+| --------------------- | ----------- | ----------- | ------------------------ |
+| First Playable        | Day 1       | ✅ Complete | #1-4                     |
+| Combat System         | Day 2       | ⚠️ 50% Done | #9-10 ✅, #11-13 pending |
+| Transformation (Core) | Day 3       | 📅 Planned  | #14-17                   |
+| Alpha Build           | Day 4       | 📅 Planned  | TBD                      |
+| Beta Build            | Day 5       | 📅 Planned  | TBD                      |
+| Final Submission      | Day 6       | 📅 Planned  | TBD                      |
 
 ---
 
