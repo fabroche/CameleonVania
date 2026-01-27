@@ -356,6 +356,31 @@ currentHealth = Mathf.Clamp(...);
 - Explicar el "por qué" de cada decisión
 - Incluir debugging tips
 
+#### **Formato Validado - Referencia:**
+
+**USAR COMO PLANTILLA:** `issue-10-guide.md` (Player Attack System)
+
+Este formato ha sido validado y funciona perfectamente:
+
+- ✅ Teoría visual con diagramas ASCII y tablas comparativas
+- ✅ Ejemplos ❌/✅ mostrando qué NO hacer y qué SÍ hacer
+- ✅ Pistas progresivas (2-3 niveles) antes de solución completa
+- ✅ Tests incrementales con resultados esperados exactos
+- ✅ Debugging de errores REALES que encontrará el usuario
+- ✅ Setup Unity paso a paso con capturas de Inspector
+- ✅ Checkpoints con preguntas y respuestas en spoilers
+- ✅ Código completamente comentado explicando el "por qué"
+
+**Elementos clave del formato Issue 10:**
+
+1. **Comparaciones visuales** - Tablas de métodos/opciones
+2. **Visualización ASCII** - Diagramas de cómo funciona
+3. **Problema/Solución** - Mostrar código ❌ malo y ✅ bueno
+4. **Preguntas inline** - Con respuestas en `<details>`
+5. **Tests progresivos** - 6+ tests de simple a complejo
+6. **Debugging real** - "No detecta enemigos", "NullReference", etc.
+7. **Mejoras opcionales** - Para quien termine rápido
+
 ❌ **NO hacer:**
 
 - Escribir el código directamente en el proyecto
@@ -704,9 +729,22 @@ start CameleonVania.sln
 ### **Al recibir una nueva Issue:**
 
 1. ✅ Crear `issue-X-guide.md` en artifacts
-2. ✅ Incluir: Teoría → Implementación con pistas → Testing → Debugging → Checkpoint
-3. ✅ NO escribir código directamente en el proyecto
-4. ✅ Guiar al usuario paso a paso
+2. ✅ **USAR `issue-10-guide.md` COMO PLANTILLA** (formato validado)
+3. ✅ Incluir: Teoría visual → Implementación con pistas → Setup Unity → Testing → Debugging → Checkpoint
+4. ✅ NO escribir código directamente en el proyecto
+5. ✅ Guiar al usuario paso a paso
+
+### **Elementos obligatorios en cada guía:**
+
+```markdown
+✅ Teoría con diagramas ASCII y tablas
+✅ Ejemplos ❌ (malo) vs ✅ (bueno)
+✅ Pistas progresivas (2-3 niveles)
+✅ Tests con output esperado exacto
+✅ Debugging de errores reales
+✅ Setup Unity paso a paso
+✅ Checkpoints con respuestas en spoilers
+```
 
 ### **Estructura de cada paso de implementación:**
 
