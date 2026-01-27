@@ -275,37 +275,123 @@ Cuando retomes el proyecto, sigue estos pasos:
 
 ## 🎓 METODOLOGÍA DE APRENDIZAJE
 
+### **Workflow de Implementación (CRÍTICO)**
+
+**IMPORTANTE:** El agente NO debe implementar el código directamente. Debe crear guías de implementación.
+
+#### **Formato: Issue Guide (como Día 1)**
+
+Para cada issue, crear un archivo `issue-X-guide.md` con esta estructura:
+
+```markdown
+# Issue #X: [Nombre] - Implementation Guide
+
+## 📚 PARTE 1: TEORÍA (30 min)
+
+- Explicación de conceptos
+- ¿Por qué se hace así?
+- Ejemplos visuales/diagramas
+- Recursos de aprendizaje
+
+## 🛠️ PARTE 2: IMPLEMENTACIÓN (1-2h)
+
+- Paso 1: Setup inicial
+- Paso 2: Estructura básica
+- Paso 3-N: Implementación incremental
+  - Cada paso con:
+    - Instrucciones claras
+    - 💡 Pistas (spoilers)
+    - ✅ Solución completa (spoiler)
+
+## 🧪 PARTE 3: TESTING (30 min)
+
+- Cómo probar en Unity
+- Qué verificar
+- Resultados esperados
+
+## 🐛 DEBUGGING
+
+- Errores comunes
+- Soluciones
+
+## ✅ CHECKPOINT
+
+- Preguntas de aprendizaje
+- Validación de conceptos
+```
+
+#### **Ejemplo de Paso con Pistas:**
+
+```markdown
+### Paso 5: Implementar TakeDamage()
+
+**TU TURNO:** Intenta implementarlo antes de ver la solución.
+
+**Requisitos:**
+
+1. Restar damage de currentHealth
+2. Usar Mathf.Clamp
+3. Invocar evento
+4. Verificar muerte
+
+<details>
+<summary>💡 Pista 1</summary>
+currentHealth -= damage;
+currentHealth = Mathf.Clamp(...);
+</details>
+
+<details>
+<summary>✅ Solución Completa</summary>
+[código completo aquí]
+</details>
+```
+
+#### **Reglas de Oro:**
+
+✅ **SÍ hacer:**
+
+- Crear guías detalladas con teoría
+- Dar pistas incrementales
+- Proporcionar soluciones en spoilers
+- Explicar el "por qué" de cada decisión
+- Incluir debugging tips
+
+❌ **NO hacer:**
+
+- Escribir el código directamente en el proyecto
+- Implementar sin que el usuario lo pida
+- Dar la solución sin pistas primero
+- Saltarse la explicación teórica
+
 ### **Ciclo por Feature:**
 
 ```
 1. ENTENDER
-   → ¿Qué hace esta feature?
-   → Lee la teoría en plan-implementacion.md
+   → Lee la Issue Guide (Parte 1: Teoría)
+   → Comprende los conceptos nuevos
 
 2. DISEÑAR
-   → ¿Cómo la implementarías tú?
+   → Piensa cómo lo implementarías
    → Dibuja en papel si es necesario
 
-3. INVESTIGAR
-   → Unity docs, tutorials
-   → Fuentes proporcionadas por el agente
+3. IMPLEMENTAR
+   → Sigue la Issue Guide (Parte 2)
+   → Intenta cada paso antes de ver pistas
+   → Usa pistas si te atascas >15 min
+   → Verifica solución completa al final
 
-4. IMPLEMENTAR
-   → Escribe el código
-   → NO copies, entiende cada línea
+4. TESTEAR
+   → Sigue la Issue Guide (Parte 3)
+   → Verifica en Unity
+   → Usa Debug.Log
 
 5. DEBUGGEAR
-   → Usa Debug.Log
-   → Usa Gizmos para visualización
+   → Consulta sección Debugging de la guía
    → Resuelve errores (aquí aprendes más)
 
-6. REFACTORIZAR
-   → Mejora el código
-   → Aplica buenas prácticas
-
-7. VALIDAR
-   → ¿Funciona como esperabas?
-   → Responde checkpoints del plan
+6. VALIDAR
+   → Responde Checkpoint de la guía
+   → ¿Entiendes cada línea de código?
 ```
 
 ### **Cuándo Pedir Ayuda:**
@@ -613,8 +699,55 @@ start CameleonVania.sln
 
 ---
 
-**Última actualización:** 27 de Enero, 2026 - 00:00  
-**Próxima acción:** Crear issues del Día 2 y comenzar Health System
+## 📖 REFERENCIA RÁPIDA PARA EL AGENTE
+
+### **Al recibir una nueva Issue:**
+
+1. ✅ Crear `issue-X-guide.md` en artifacts
+2. ✅ Incluir: Teoría → Implementación con pistas → Testing → Debugging → Checkpoint
+3. ✅ NO escribir código directamente en el proyecto
+4. ✅ Guiar al usuario paso a paso
+
+### **Estructura de cada paso de implementación:**
+
+```markdown
+### Paso X: [Nombre]
+
+**TU TURNO:** Intenta implementarlo.
+
+**Requisitos:**
+
+- Requisito 1
+- Requisito 2
+
+<details>
+<summary>💡 Pista 1</summary>
+Primera pista
+</details>
+
+<details>
+<summary>💡 Pista 2</summary>
+Segunda pista
+</details>
+
+<details>
+<summary>✅ Solución Completa</summary>
+Código completo aquí
+</details>
+```
+
+### **Cuando el usuario pide ayuda:**
+
+- ✅ Revisar qué paso está haciendo
+- ✅ Dar pistas incrementales
+- ✅ Explicar conceptos si no los entiende
+- ✅ Debugging si hay errores
+- ❌ NO dar solución completa inmediatamente
+
+---
+
+**Última actualización:** 27 de Enero, 2026 - 19:00  
+**Próxima acción:** Usuario implementando Health System con issue-9-guide.md
 
 ---
 
