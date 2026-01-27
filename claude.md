@@ -238,6 +238,7 @@ Cuando retomes el proyecto, sigue estos pasos:
 □ Activar agente: "Usa la configuración del agente en node_modules"
 □ Seleccionar rol: "2 - Programador"
 □ Leer este archivo (claude.md)
+□ Leer GDD-GGJ2026.txt (Game Design Document)
 ```
 
 ### **2. Revisar Estado**
