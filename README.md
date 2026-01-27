@@ -180,7 +180,7 @@ refactor/ → Code refactoring
       <sub>🇪🇸 Spanish</sub>
     </td>
     <td align="center">
-      <img src="https://via.placeholder.com/100/4A90E2/FFFFFF?text=A" width="100px;" alt="Alfonzo"/>
+      <img src="https://github.com/Astiaz.png" width="100px;" alt="Alfonzo"/>
       <br />
       <sub><b>Alfonzo</b></sub>
       <br />
