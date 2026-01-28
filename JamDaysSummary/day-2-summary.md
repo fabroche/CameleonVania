@@ -63,37 +63,68 @@
 
 ---
 
-## ⏳ ISSUES PENDIENTES
+---
 
-### **Issue #11: Enemy AI - State Machine** ⏳
+### **Issue #11: Enemy AI - State Machine** ✅
 
-**Estado:** NO INICIADO  
-**Estimación:** 4-6 horas  
-**Prioridad:** P0-critical
+**Estado:** COMPLETADO  
+**Tiempo:** ~6 horas  
+**Fecha:** 28 de Enero, 2026
 
-**Pendiente:**
+**Implementación:**
 
-- [ ] Crear `EnemyAI2D.cs`
-- [ ] Implementar FSM (Idle, Patrol, Chase, Attack)
-- [ ] Patrol behavior
-- [ ] Chase behavior con detección de player
-- [ ] Attack behavior con cooldown
-- [ ] Gizmos para debugging
+- ✅ Componente `EnemyAI2D.cs` con FSM completa
+- ✅ 5 Estados: Idle, Patrol, Chase, Attack, Stunned
+- ✅ Patrol: Movimiento left/right con flip automático
+- ✅ Chase: Detección y persecución del player
+- ✅ Attack: Ataque con cooldown y aplicación de daño
+- ✅ Stunned: Estado de knockback cuando recibe daño
+- ✅ Hysteresis en transiciones (evita flickering)
+- ✅ Gizmos color-coded para debugging visual
+- ✅ Sistema de eventos con `Health.OnTakeDamageWithKnockback`
+
+**Ubicación:** `Assets/Scripts/Enemies/EnemyAI2D.cs`
+
+**Valores configurados:**
+
+- Patrol Speed: 2f
+- Chase Speed: 3.5f
+- Patrol Distance: 3f
+- Detection Range: 5f
+- Attack Range: 1.5f
+- Attack Damage: 15f
+- Attack Cooldown: 1.5f
+- Stun Duration: 0.5f
 
 ---
 
-### **Issue #13: Combat Loop Integration** ⏳
+### **Issue #13: Combat Loop Integration** ✅
 
-**Estado:** NO INICIADO  
-**Estimación:** 1-2 horas  
-**Prioridad:** P0-critical
+**Estado:** COMPLETADO  
+**Tiempo:** ~2 horas  
+**Fecha:** 28 de Enero, 2026
 
-**Pendiente:**
+**Implementación:**
 
-- [ ] Integration testing completo
-- [ ] Balanceo de valores
-- [ ] Polish y tuning
-- [ ] Documentación final
+- ✅ Testing Player vs Enemy (ataque, daño, knockback)
+- ✅ Testing Enemy vs Player (detección, chase, ataque)
+- ✅ Sistema de knockback bidireccional funcional
+- ✅ Stun system para player (0.3s)
+- ✅ Validación automática de Player tag
+- ✅ Documentación actualizada
+
+**Fixes Aplicados:**
+
+- ✅ Knockback player: Agregado stun system en `PlayerController`
+- ✅ Knockback enemy: Removido velocity override en `StunnedBehavior`
+- ✅ Dirección knockback: Corregida en `EnemyAI2D.AttackBehavior`
+- ✅ Duplicación: Removida aplicación directa en `Health.cs`
+
+**Archivos Modificados:**
+
+- `PlayerController.cs` - Stun system y event subscription
+- `EnemyAI2D.cs` - Dirección knockback y StunnedBehavior
+- `Health.cs` - Evento `OnTakeDamageWithKnockback`
 
 ---
 

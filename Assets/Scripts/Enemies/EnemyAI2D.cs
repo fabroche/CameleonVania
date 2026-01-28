@@ -113,8 +113,8 @@ public class EnemyAI2D : MonoBehaviour
     /// </summary>
     private void StunnedBehavior()
     {
-        // Stop movement
-        _rb.linearVelocity = new Vector2(0, _rb.linearVelocityY);
+        // Don't override velocity - let knockback physics work naturally
+        // The enemy will naturally slow down due to drag/friction
 
         // Check if stun duration has ended
         if (Time.time >= stunEndTime)
@@ -205,7 +205,7 @@ public class EnemyAI2D : MonoBehaviour
         if (Time.time >= _lastAttackTime + attackCooldown)
         {
             Health playerHealth = _player.GetComponent<Health>();
-            Vector2 knockBackDirection = (transform.position - _player.position).normalized;
+            Vector2 knockBackDirection = (_player.position - transform.position).normalized;
             
             if (playerHealth != null)
             {
