@@ -20,7 +20,7 @@ public class HealthTester : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            health.TakeDamage(20f);
+            health.TakeDamage(20f, Vector2.zero);
         }
 
         if (Input.GetKeyDown(KeyCode.H))
@@ -30,7 +30,7 @@ public class HealthTester : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            health.TakeDamage(1000f);
+            health.TakeDamage(1000f, Vector2.zero);
         }
     }
 

@@ -10,13 +10,14 @@ public class Health : MonoBehaviour
 
     public event System.Action OnDeath;
     public event System.Action<float> OnHealthChanged;
+    public event System.Action<Vector2, float> OnTakeDamageWithKnockback;
 
     private void Start()
     {
         _currentHealth = maxHealth;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Vector2 knockbackDirection, float knockbackForce = 15f)
     {
         _currentHealth -= damage;
 
@@ -24,6 +25,15 @@ public class Health : MonoBehaviour
 
         OnHealthChanged?.Invoke(_currentHealth);
 
+        // Notify subscribers about knockback (direction from attacker to this object)
+        OnTakeDamageWithKnockback?.Invoke(knockbackDirection, damage);
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode2D.Impulse);
+        }
+        
         Debug.Log($"{gameObject.name} took {damage} damage. Health: {_currentHealth}/{maxHealth}");
 
         if (_currentHealth <= 0) Die();

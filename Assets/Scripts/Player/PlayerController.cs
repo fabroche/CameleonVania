@@ -19,6 +19,31 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        
+        // Ensure this GameObject has the "Player" tag
+        ValidatePlayerTag();
+    }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Automatically assigns "Player" tag in the Editor
+    /// </summary>
+    private void OnValidate()
+    {
+        ValidatePlayerTag();
+    }
+#endif
+
+    /// <summary>
+    /// Validates and auto-assigns the "Player" tag
+    /// </summary>
+    private void ValidatePlayerTag()
+    {
+        if (!gameObject.CompareTag("Player"))
+        {
+            gameObject.tag = "Player";
+            Debug.Log("[PlayerController] Auto-assigned 'Player' tag to GameObject.");
+        }
     }
 
     // Update is called once per frame

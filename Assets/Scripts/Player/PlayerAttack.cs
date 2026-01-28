@@ -68,7 +68,9 @@ public class PlayerAttack : MonoBehaviour
         {
             Health enemyHealth = enemy.GetComponent<Health>();
 
-            enemyHealth?.TakeDamage(attackDamage);
+            Vector2 knockbackDirection = (enemy.transform.position - transform.position).normalized;
+            
+            enemyHealth?.TakeDamage(attackDamage, knockbackDirection);
         }
     }
 
