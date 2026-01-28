@@ -25,14 +25,8 @@ public class Health : MonoBehaviour
 
         OnHealthChanged?.Invoke(_currentHealth);
 
-        // Notify subscribers about knockback (direction from attacker to this object)
+        // Notify subscribers about knockback (they will handle the actual force application)
         OnTakeDamageWithKnockback?.Invoke(knockbackDirection, damage);
-
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            rb.AddForce(knockbackDirection.normalized * knockbackForce, ForceMode2D.Impulse);
-        }
         
         Debug.Log($"{gameObject.name} took {damage} damage. Health: {_currentHealth}/{maxHealth}");
 

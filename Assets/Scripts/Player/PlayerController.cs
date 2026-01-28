@@ -16,12 +16,49 @@ public class PlayerController : MonoBehaviour
 
     private bool _isGrounded;
 
+    [Header("Knockback/Stun")]
+    private bool isStunned = false;
+    private float stunEndTime = 0f;
+    private float stunDuration = 0.3f;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         
         // Ensure this GameObject has the "Player" tag
         ValidatePlayerTag();
+
+        // Subscribe to knockback event
+        Health health = GetComponent<Health>();
+        if (health != null)
+        {
+            health.OnTakeDamageWithKnockback += HandleKnockback;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from events
+        Health health = GetComponent<Health>();
+        if (health != null)
+        {
+            health.OnTakeDamageWithKnockback -= HandleKnockback;
+        }
+    }
+
+    private void HandleKnockback(Vector2 direction, float damage)
+    {
+        // Apply knockback and stun player
+        if (_rb != null)
+        {
+            float knockbackForce = damage * 0.5f; // Proportional to damage
+            _rb.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
+            
+            isStunned = true;
+            stunEndTime = Time.time + stunDuration;
+            
+            Debug.Log($"[Player] Knocked back! Stunned for {stunDuration}s");
+        }
     }
 
 #if UNITY_EDITOR
@@ -56,6 +93,16 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Don't apply movement if stunned (allows knockback to work)
+        if (isStunned)
+        {
+            if (Time.time >= stunEndTime)
+            {
+                isStunned = false;
+            }
+            return; // Skip movement during stun
+        }
+
         _rb.linearVelocity = new Vector2(_moveInput * moveSpeed, _rb.linearVelocity.y);
     }
 
