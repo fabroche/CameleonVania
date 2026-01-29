@@ -604,12 +604,249 @@ POR CADA ISSUE:
 9. PR y merge
 10. Siguiente issue
 
-FIN DEL DÍA:
-11. Crear day-X-summary.md
-12. Actualizar plan-implementacion.md
-13. Crear issues del día siguiente
-14. Commit documentación
+FIN DEL DÍA: ⚠️ CRÍTICO - SEGUIR ESTE CHECKLIST COMPLETO
+11. ✅ Crear day-X-summary.md en JamDaysSummary/
+12. ✅ Actualizar README.md con progreso del día
+13. ✅ Actualizar claude.md con estado actual
+14. ✅ Crear issues del día siguiente en GitHub
+15. ✅ Commit y push toda la documentación
 ```
+
+---
+
+## ⚠️ CHECKLIST DETALLADO: FIN DEL DÍA
+
+### **PASO 1: Crear day-X-summary.md** ✅
+
+**Ubicación:** `JamDaysSummary/day-X-summary.md`
+
+**Contenido obligatorio:**
+
+```markdown
+# 🎮 DÍA X - PROGRESO - CameleonVania
+
+**Fecha:** [Fecha]
+**Duración:** ~X horas
+**Issues Completadas:** X/X (XX%) ✅
+
+## ✅ FEATURES IMPLEMENTADAS
+
+[Detallar cada issue completada]
+
+## 📚 CONCEPTOS APRENDIDOS
+
+[Conceptos técnicos aprendidos]
+
+## 🔧 VALORES FINALES
+
+[Valores de configuración importantes]
+
+## 📝 DOCUMENTACIÓN CREADA
+
+[Lista de archivos de documentación]
+
+## 🚀 PULL REQUESTS
+
+[PRs creados y mergeados]
+
+## 📋 ISSUES CREADAS PARA DÍA X+1
+
+[Issues del siguiente día]
+
+## ⏳ PENDIENTES PARA PRÓXIMA SESIÓN
+
+[Tareas pendientes]
+
+## 📊 PROGRESO GENERAL
+
+[Tabla de progreso]
+```
+
+---
+
+### **PASO 2: Actualizar README.md** ✅
+
+**Ubicación:** `README.md`
+
+**Secciones a actualizar:**
+
+1. **Features Implementadas** (líneas ~38-68)
+   - Mover features de "Planned" a "Implemented"
+   - Actualizar estado de cada día
+
+2. **Development Progress** (líneas ~218-258)
+   - Marcar día actual como completado
+   - Listar issues completadas
+   - Listar PRs mergeados
+   - Actualizar día siguiente con issues creadas
+
+3. **Milestones** (líneas ~262-271)
+   - Actualizar estado del milestone actual
+   - Cambiar de "Planned" a "Complete"
+
+**Comando:**
+
+```bash
+# Editar README.md
+git add README.md
+git commit -m "docs: Update README.md with Day X completion"
+git push origin main
+```
+
+---
+
+### **PASO 3: Actualizar claude.md** ✅
+
+**Ubicación:** `claude.md`
+
+**Sección a actualizar:** Final del archivo (líneas ~787-820)
+
+**Contenido a actualizar:**
+
+```markdown
+**Última actualización:** [Fecha actual]
+**Próxima acción:** Día X+1 - [Objetivo del día]
+
+**Estado Día X:** ✅ COMPLETADO
+
+- ✅ Issue #X - COMPLETADO
+- ✅ Issue #Y - COMPLETADO
+
+**Progreso:** 100% del Día X completado
+
+**Branches Activas:**
+
+- `main` - Día 1 + Día X completos
+- [otras branches si existen]
+
+**Issues Creadas para Día X+1:**
+
+- [Lista de issues]
+
+**Documentación Actualizada:**
+
+- ✅ `day-X-summary.md`
+- ✅ `README.md`
+- ✅ `claude.md`
+```
+
+**Comando:**
+
+```bash
+git add claude.md
+git commit -m "docs: Update claude.md with Day X completion status"
+git push origin main
+```
+
+---
+
+### **PASO 4: Crear Issues del Día Siguiente** ✅
+
+**Herramienta:** GitHub CLI (`gh`)
+
+**Proceso:**
+
+1. **Leer plan-implementacion.md** del día siguiente
+2. **Identificar features** del día
+3. **Crear issue por cada feature:**
+
+```bash
+gh issue create \
+  --title "[FEATURE X] Nombre - Day Y" \
+  --body "Descripción breve. Ver plan-implementacion.md Día Y para detalles." \
+  --label "feature,P0-critical"
+```
+
+**Ejemplo para Día 3:**
+
+```bash
+# Issue #14
+gh issue create \
+  --title "[FEATURE 7] TransformationData ScriptableObject (Day 3)" \
+  --body "Implementar ScriptableObject para datos de transformación. Ver plan-implementacion.md Día 3." \
+  --label "feature,P0-critical"
+
+# Issue #15
+gh issue create \
+  --title "[FEATURE 7] PlayerTransform Component (Day 3)" \
+  --body "Implementar componente de transformación del player. Ver plan-implementacion.md Día 3." \
+  --label "feature,P0-critical"
+
+# Etc...
+```
+
+**Verificar:**
+
+```bash
+gh issue list --label feature --limit 10
+```
+
+---
+
+### **PASO 5: Commit Final de Documentación** ✅
+
+**Archivos a commitear:**
+
+```bash
+# Ver cambios
+git status
+
+# Agregar todos los archivos de documentación
+git add JamDaysSummary/day-X-summary.md
+git add README.md
+git add claude.md
+
+# Commit
+git commit -m "docs: Complete Day X documentation
+
+- Created day-X-summary.md
+- Updated README.md with progress
+- Updated claude.md with status
+- Created Day X+1 issues in GitHub"
+
+# Push
+git push origin main
+```
+
+---
+
+## 📋 CHECKLIST RÁPIDO (Copiar y Pegar)
+
+Al final de cada día, verificar:
+
+```
+FIN DEL DÍA - CHECKLIST:
+
+[ ] 1. day-X-summary.md creado en JamDaysSummary/
+[ ] 2. README.md actualizado (Features, Progress, Milestones)
+[ ] 3. claude.md actualizado (Estado actual, Branches, Issues)
+[ ] 4. Issues del día siguiente creadas en GitHub
+[ ] 5. Verificar issues con: gh issue list
+[ ] 6. Commit y push de toda la documentación
+[ ] 7. Verificar push exitoso: git log --oneline -3
+
+✅ TODO COMPLETO - Sesión cerrada correctamente
+```
+
+---
+
+## ⚠️ ERRORES COMUNES A EVITAR
+
+❌ **NO hacer:**
+
+- Olvidar crear day-X-summary.md en JamDaysSummary/
+- Actualizar solo claude.md sin README.md
+- Crear issues sin verificar que se crearon
+- Commitear sin pushear
+- Usar labels que no existen (verificar primero)
+
+✅ **SÍ hacer:**
+
+- Seguir el checklist en orden
+- Verificar cada paso antes de continuar
+- Usar `git status` antes de commit
+- Usar `gh issue list` para verificar issues
+- Leer plan-implementacion.md antes de crear issues
 
 ---
 
