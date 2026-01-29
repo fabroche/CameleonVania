@@ -42,16 +42,13 @@ Defeat Enemy → Collect Mask → Transform → Gain Abilities → Explore New A
 - ✅ **Professional Camera System** - Cinemachine with dead zones and smooth follow
 - ✅ **Optimized Collision System** - Layer-based collision matrix
 
-### ✅ Implemented (Day 2 - Partial)
+### ✅ Implemented (Day 2 - Complete)
 
 - ✅ **Health System** - Event-driven health management with C# events
 - ✅ **Player Attack System** - Physics2D-based attack with cooldown and visual feedback
+- ✅ **Enemy AI** - FSM with 5 states (Idle, Patrol, Chase, Attack, Stunned)
+- ✅ **Combat Loop** - Bidirectional knockback system with stun mechanics
 - ✅ **Gizmos Debugging** - Visual debugging tools for development
-
-### 🚧 In Progress (Day 2 - Pending)
-
-- 🔄 **Enemy AI** - State machine-based behavior (Patrol, Chase, Attack)
-- 🔄 **Combat Loop Integration** - Complete Player ↔ Enemy combat system
 
 ### 📅 Planned (Day 3 - Transformation System)
 
@@ -60,7 +57,13 @@ Defeat Enemy → Collect Mask → Transform → Gain Abilities → Explore New A
 - 📋 **TransformMask Collectible** - Pickup items for transformation
 - 📋 **MaskDrop System** - Enemies drop masks on death
 
-### 📅 Planned (Days 4-6)
+### 📅 Planned (Day 4 - Special Abilities)
+
+- 📋 **Swimming (Water Zones)** - Fish transformation ability
+- 📋 **Wall Climbing** - Spider transformation ability
+- 📋 **Small Gaps** - Ladybug transformation ability
+
+### 📅 Planned (Days 5-6)
 
 - 📋 **UI/HUD System** - Health bars, transformation indicator
 - 📋 **Level Design** - Interconnected areas requiring different forms
@@ -224,31 +227,38 @@ refactor/ → Code refactoring
 - [x] Jump and ground detection
 - [x] Camera follow system
 
-### Day 2 ⚠️ (27 Jan 2026) - 50% Complete
+### Day 2 ✅ (27-28 Jan 2026) - Complete
 
 **Completed:**
 
 - [x] Health system with C# events (#9)
 - [x] Player attack system with cooldown (#10)
+- [x] Enemy AI with FSM - 5 states (#11)
+- [x] Combat loop integration with knockback (#13)
+- [x] 3D model integration test (Ladybug from Alfonzo)
 
-**Pending:**
+**Pull Requests:**
 
-- [ ] Enemy AI with state machine (#11)
-- [ ] Combat loop integration (#13)
+- [x] PR #20: Enemy AI State Machine
+- [x] PR #21: Combat Loop Integration
+- [x] PR #23: 3D Model Integration (testing)
 
-### Day 3 📅 (28 Jan 2026) - Transformation System
+### Day 3 📅 (29 Jan 2026) - Transformation System
 
-**Priority 1: Complete Day 2**
-
-- [ ] Enemy AI with state machine (#11)
-- [ ] Combat loop integration (#13)
-
-**Priority 2: Transformation System**
+**Planned:**
 
 - [ ] TransformationData ScriptableObject (#14)
 - [ ] PlayerTransform component (#15)
 - [ ] TransformMask collectible (#16)
 - [ ] MaskDrop on enemy death (#17)
+
+### Day 4 📅 (30 Jan 2026) - Special Abilities
+
+**Planned:**
+
+- [ ] Swimming - Water Zones (#24)
+- [ ] Wall Climbing (#25)
+- [ ] Small Gaps - Mariquita (#26)
 
 ### Days 4-6 📅
 
@@ -261,14 +271,14 @@ refactor/ → Code refactoring
 
 ## 🎯 Milestones
 
-| Milestone             | Target Date | Status      | Issues                   |
-| --------------------- | ----------- | ----------- | ------------------------ |
-| First Playable        | Day 1       | ✅ Complete | #1-4                     |
-| Combat System         | Day 2       | ⚠️ 50% Done | #9-10 ✅, #11-13 pending |
-| Transformation (Core) | Day 3       | 📅 Planned  | #14-17                   |
-| Alpha Build           | Day 4       | 📅 Planned  | TBD                      |
-| Beta Build            | Day 5       | 📅 Planned  | TBD                      |
-| Final Submission      | Day 6       | 📅 Planned  | TBD                      |
+| Milestone             | Target Date | Status      | Issues     |
+| --------------------- | ----------- | ----------- | ---------- |
+| First Playable        | Day 1       | ✅ Complete | #1-4       |
+| Combat System         | Day 2       | ✅ Complete | #9-11, #13 |
+| Transformation (Core) | Day 3       | 📅 Planned  | #14-17     |
+| Special Abilities     | Day 4       | 📅 Planned  | #24-26     |
+| Polish & UI           | Day 5       | 📅 Planned  | TBD        |
+| Final Submission      | Day 6       | 📅 Planned  | TBD        |
 
 ---
 
