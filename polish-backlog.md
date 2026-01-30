@@ -99,10 +99,31 @@ Lista de mejoras de polish pendientes para implementar en la fase de polish del 
 
 ### Transformation System Polish
 
+#### TransformMask Collectible (Issue #16)
+- [ ] **Visual Feedback**
+  - Particle effect al recoger máscara
+  - Float animation (máscara sube/baja)
+  - Glow/pulse effect
+- [ ] **Audio Feedback**
+  - Sonido de pickup
+  - Sonido único por transformación
+- [ ] **Gameplay Feel**
+  - Magnetismo (player atrae máscaras cercanas)
+
+#### MaskDrop System (Issue #17)
+- [ ] **Drop Effects**
+  - Particle effect al spawner máscara
+  - Sonido de drop
+  - Bounce effect (máscara rebota al caer)
+- [ ] **Drop Behavior**
+  - Drop velocity (máscara sale disparada ligeramente)
+  - Glow effect en máscara recién dropeada
+  - Fade in de la máscara
+
+#### General Transformation
 - [ ] Transformation VFX
 - [ ] Transformation sound effects
 - [ ] Smooth transition animations
-- [ ] Particle effects for mask collection
 
 ### Level Design Polish
 
