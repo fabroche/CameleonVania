@@ -57,4 +57,11 @@ public class TransformMask : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, col.radius);
         }
     }
+    
+    public void SetTransformationType(TransformationData newTransformation)
+    {
+        transformationType = newTransformation;
+    }
+    
+    public TransformationData GetTransformationType() => transformationType;  
 }
