@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb85f6a3023248e2b2c0f39690ffd318, type: 3}
   m_Name: Transformation_BaseForm
   m_EditorClassIdentifier: 
-  transformName: New Transformation
-  modelPrefab: {fileID: 0}
+  transformName: BaseForm
+  modelPrefab: {fileID: 848486764775616972, guid: 70e6cccd323196d43bd78cd88f4803ab, type: 3}
   speedMultiplier: 1
   jumpMultiplier: 1
   heightMultiplier: 1
@@ -21,8 +21,9 @@ MonoBehaviour:
   healthMultiplier: 1
   damageMultiplier: 1
   attackSpeedMultiplier: 1
+  attackRangeMultiplier: 1
   canSwim: 0
   canWallClimb: 0
   canFitSmallGaps: 0
   transformIcon: {fileID: 0}
-  description: "Descripci\xF3n de la transformaci\xF3n"
+  description: base form
