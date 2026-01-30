@@ -77,6 +77,24 @@ Lista de mejoras de polish pendientes para implementar en la fase de polish del 
 
 ---
 
+## 🎯 Día 3 - Transformation System Polish
+
+### Code Quality & Validation
+
+- [ ] **PlayerTransform Validations**
+  - Agregar `enabled = false` en Start() si faltan componentes críticos
+  - Validar `transformationData != null` en ApplyTransformationStats()
+  - Validar rangos razonables de multipliers (0.1f - 5f)
+  - Mejorar mensajes de error con contexto más descriptivo
+  - Agregar validación de null antes de llamar setters
+
+- [ ] **TransformationData Validation**
+  - Validar que multipliers estén en rangos válidos
+  - Advertir si modelPrefab es null pero se intenta transformar
+  - Validar que al menos una habilidad esté activa
+
+---
+
 ## 🎯 Día 3+ - Future Polish
 
 ### Transformation System Polish
