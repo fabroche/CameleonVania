@@ -67,4 +67,18 @@ public class Health : MonoBehaviour
     {
         return _currentHealth > 0;
     }
+    
+    public void SetMaxHealth(float newMaxHealth)
+    {
+        maxHealth = Mathf.Max(1f, newMaxHealth); // Minimum 1 HP
+        
+        // Adjust current health if it exceeds new max
+        if (_currentHealth > maxHealth)
+        {
+            _currentHealth = maxHealth;
+            OnHealthChanged?.Invoke(_currentHealth);
+        }
+        
+        Debug.Log($"[Health] Max health set to: {maxHealth}");
+    }
 }
