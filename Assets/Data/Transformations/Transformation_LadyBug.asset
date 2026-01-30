@@ -21,6 +21,10 @@ MonoBehaviour:
   healthMultiplier: 0.25
   damageMultiplier: 0.25
   attackSpeedMultiplier: 2
+  attackRangeMultiplier: 1
   canSwim: 0
   canWallClimb: 0
   canFitSmallGaps: 1
+  transformIcon: {fileID: 0}
+  description: LadyBug Form - give to the player the hability to pass trough small
+    Gaps and goes faster

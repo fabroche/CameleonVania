@@ -21,6 +21,9 @@ MonoBehaviour:
   healthMultiplier: 1
   damageMultiplier: 1
   attackSpeedMultiplier: 1
+  attackRangeMultiplier: 1
   canSwim: 0
-  canWallClimb: 0
+  canWallClimb: 1
   canFitSmallGaps: 0
+  transformIcon: {fileID: 0}
+  description: Spider Form - give to the player the hability to climp walls
