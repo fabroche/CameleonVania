@@ -1,10 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-/// <summary>
-/// ScriptableObject que define los datos de una transformación.
-/// Cada transformación modifica las stats del player y otorga habilidades únicas.
-/// </summary>
 [CreateAssetMenu(fileName = "New Transformation", menuName = "CameleonVania/Transformation", order = 0)]
 public class TransformationData : ScriptableObject
 {
@@ -44,6 +40,10 @@ public class TransformationData : ScriptableObject
     [Range(0.1f, 3.0f)]
     public float attackSpeedMultiplier = 1.0f;
     
+    [Tooltip("Multiplicador de Rango de ataque (1.0 = normal, 0.5 = mitad, 2.0 = doble)")]
+    [Range(0.1f, 3.0f)]
+    public float attackRangeMultiplier = 1.0f;
+    
     [Header("Special Abilities")]
     [Tooltip("Puede nadar en zonas de agua (Frog)")]
     public bool canSwim = false;
@@ -54,8 +54,6 @@ public class TransformationData : ScriptableObject
     [Tooltip("Puede pasar por espacios pequeños (Ladybug)")]
     public bool canFitSmallGaps = false;
     
-    // ========== MEJORAS OPCIONALES ==========
-    
     [Header("UI")]
     [Tooltip("Ícono de la transformación para mostrar en el HUD")]
     public Sprite transformIcon;
@@ -63,11 +61,7 @@ public class TransformationData : ScriptableObject
     [Tooltip("Descripción de la transformación")]
     [TextArea(3, 5)]
     public string description = "Descripción de la transformación";
-    
-    /// <summary>
-    /// Validación automática en el Inspector para prevenir valores inválidos.
-    /// Se ejecuta cada vez que cambias un valor en el Inspector.
-    /// </summary>
+
     private void OnValidate()
     {
         // Asegurar que todos los multipliers estén dentro del rango válido
