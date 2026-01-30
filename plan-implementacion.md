@@ -10,6 +10,7 @@
 **Secundario**: Terminar un juego funcional
 
 **Metodología**:
+
 - YO te guío con conceptos, arquitectura y dirección
 - TÚ implementas, investigas y resuelves
 - Pides ayuda cuando te atores, pero intentas primero
@@ -20,10 +21,12 @@
 ## 📚 Principios de Aprendizaje
 
 ### Regla 80/20
+
 - 80% del tiempo: Tú implementas por tu cuenta
 - 20% del tiempo: Pides guía cuando te atoras
 
 ### Ciclo de Aprendizaje por Feature
+
 ```
 1. ENTENDER: ¿Qué hace esta feature?
 2. DISEÑAR: ¿Cómo la implementarías tú?
@@ -35,6 +38,7 @@
 ```
 
 ### Cuando Pedir Ayuda
+
 ```
 ✅ PIDE AYUDA si:
 - Llevas >30 min atascado en el mismo error
@@ -63,12 +67,14 @@
 ### 🔧 FEATURE 1: Setup del Proyecto (2-3h)
 
 #### **Conceptos a Aprender:**
+
 - Diferencia entre Unity 2D y 3D template
 - Sistema de layers y collision matrix
 - Project structure best practices
 - Git workflow para Unity
 
 #### **Tu Tarea:**
+
 ```
 1. Crear proyecto Unity 6 con 2D template
    - ¿Por qué 2D template? → Investiga qué trae configurado por default
@@ -93,6 +99,7 @@
 ```
 
 #### **Recursos de Aprendizaje:**
+
 ```
 Unity Docs:
 - Layers and Collision Matrix: docs.unity3d.com/Manual/Layers.html
@@ -104,6 +111,7 @@ YouTube:
 ```
 
 #### **Checkpoint de Validación:**
+
 ```
 Antes de continuar, debes poder responder:
 ✓ ¿Por qué el player NO debe colisionar con collectibles?
@@ -112,6 +120,7 @@ Antes de continuar, debes poder responder:
 ```
 
 #### **🆘 Pide Ayuda Si:**
+
 - No entiendes la diferencia entre Layer y Tag
 - La Collision Matrix te confunde
 - Git no funciona correctamente
@@ -121,12 +130,14 @@ Antes de continuar, debes poder responder:
 ### 🎮 FEATURE 2: Player Controller 2D (3-4h)
 
 #### **Conceptos a Aprender:**
+
 - Rigidbody2D vs Transform.Translate
 - FixedUpdate vs Update para física
 - Ground detection con Raycast/OverlapCircle
 - Input.GetAxisRaw vs Input.GetAxis
 
 #### **Ejercicio Previo (15 min):**
+
 ```
 Antes de escribir código, responde en papel:
 
@@ -139,6 +150,7 @@ Busca las respuestas en Unity docs si no las sabes.
 ```
 
 #### **Tu Tarea - Iteración 1 (Movimiento Básico):**
+
 ```
 OBJETIVO: Player se mueve left/right
 
@@ -163,6 +175,7 @@ OBJETIVO: Player se mueve left/right
 ```
 
 #### **Desafío de Implementación:**
+
 ```
 NO mires código de referencia todavía.
 
@@ -175,6 +188,7 @@ Prueba, debuggea, ajusta.
 ```
 
 #### **Tu Tarea - Iteración 2 (Jump):**
+
 ```
 OBJETIVO: Player puede saltar
 
@@ -197,6 +211,7 @@ Problemas comunes que enfrentarás:
 ```
 
 #### **Debugging Challenge:**
+
 ```
 Si tu jump no funciona, ANTES de pedir ayuda:
 
@@ -212,6 +227,7 @@ Si tu jump no funciona, ANTES de pedir ayuda:
 ```
 
 #### **Recursos de Aprendizaje:**
+
 ```
 Unity Docs:
 - Rigidbody2D: docs.unity3d.com/Manual/class-Rigidbody2D.html
@@ -224,6 +240,7 @@ YouTube:
 ```
 
 #### **Checkpoint de Validación:**
+
 ```
 Antes de continuar:
 ✓ ¿Por qué la física va en FixedUpdate()?
@@ -235,6 +252,7 @@ Si no puedes responder, investiga más antes de continuar.
 ```
 
 #### **🆘 Pide Ayuda Si:**
+
 - Tu player atraviesa el suelo (después de revisar layers)
 - Ground check no funciona (después de Debug.Log)
 - No entiendes la diferencia entre Update/FixedUpdate
@@ -244,11 +262,13 @@ Si no puedes responder, investiga más antes de continuar.
 ### 📷 FEATURE 3: Cámara 2D (1-2h)
 
 #### **Conceptos a Aprender:**
+
 - Orthographic vs Perspective camera
 - Camera follow patterns
 - Cinemachine básico
 
 #### **Ejercicio de Diseño:**
+
 ```
 Antes de implementar:
 
@@ -263,6 +283,7 @@ Antes de implementar:
 ```
 
 #### **Tu Tarea - Opción 1: Manual (Simple):**
+
 ```
 OBJETIVO: Entender cómo funciona una camera follow
 
@@ -286,6 +307,7 @@ DESAFÍO: Implementa esto SIN ver código de referencia.
 ```
 
 #### **Tu Tarea - Opción 2: Cinemachine (Profesional):**
+
 ```
 OBJETIVO: Aprender a usar herramientas de la industria
 
@@ -307,6 +329,7 @@ OBJETIVO: Aprender a usar herramientas de la industria
 ```
 
 #### **Checkpoint:**
+
 ```
 ✓ ¿Cuándo usar LateUpdate() para cámaras?
 ✓ ¿Qué es el "camera lag" y por qué existe?
@@ -318,6 +341,7 @@ OBJETIVO: Aprender a usar herramientas de la industria
 ### 📝 ENTREGABLE DÍA 1
 
 Al final del día, debes tener:
+
 ```
 ✅ Proyecto configurado con Git
 ✅ Player que se mueve left/right
@@ -332,6 +356,7 @@ PERO MÁS IMPORTANTE:
 ```
 
 #### **Autoevaluación:**
+
 ```
 Antes de dormir, responde:
 1. ¿Qué fue lo más difícil hoy?
@@ -351,11 +376,13 @@ Antes de dormir, responde:
 ### 💊 FEATURE 4: Health System (2-3h)
 
 #### **Conceptos a Aprender:**
+
 - Component-based architecture
 - Events y delegates en C#
 - Reutilización de código
 
 #### **Ejercicio de Diseño (30 min):**
+
 ```
 Antes de escribir código:
 
@@ -376,6 +403,7 @@ Antes de escribir código:
 ```
 
 #### **Tu Tarea - Iteración 1 (Health Básico):**
+
 ```
 OBJETIVO: Un componente reutilizable de salud
 
@@ -396,6 +424,7 @@ OBJETIVO: Un componente reutilizable de salud
 ```
 
 #### **Tu Tarea - Iteración 2 (Events):**
+
 ```
 OBJETIVO: Que otros scripts sepan cuando cambia el health
 
@@ -422,6 +451,7 @@ DESAFÍO: Implementa esto investigando la sintaxis de eventos en C#
 ```
 
 #### **Debugging Challenge:**
+
 ```
 Errores comunes que encontrarás:
 1. NullReferenceException en eventos
@@ -437,6 +467,7 @@ Errores comunes que encontrarás:
 ```
 
 #### **Checkpoint:**
+
 ```
 ✓ ¿Qué es un event y por qué usarlo?
 ✓ ¿Cuál es la diferencia entre public variable y public event?
@@ -449,12 +480,14 @@ Errores comunes que encontrarás:
 ### ⚔️ FEATURE 5: Combat System - Player Attack (3-4h)
 
 #### **Conceptos a Aprender:**
+
 - Collision detection en 2D
 - Physics2D.OverlapCircle
 - LayerMask filtering
 - Gizmos para debugging visual
 
 #### **Ejercicio de Diseño:**
+
 ```
 Diseña en papel:
 
@@ -473,6 +506,7 @@ Diseña en papel:
 ```
 
 #### **Tu Tarea - Iteración 1 (Attack Detection):**
+
 ```
 OBJETIVO: Detectar enemigos en rango de ataque
 
@@ -500,6 +534,7 @@ OBJETIVO: Detectar enemigos en rango de ataque
 ```
 
 #### **Tu Tarea - Iteración 2 (Aplicar Daño):**
+
 ```
 OBJETIVO: Que el ataque haga daño
 
@@ -518,6 +553,7 @@ OBJETIVO: Que el ataque haga daño
 ```
 
 #### **Tu Tarea - Iteración 3 (Visual Debugging):**
+
 ```
 OBJETIVO: Ver el attack range en Scene view
 
@@ -534,6 +570,7 @@ Esto te ayudará MUCHO a debuggear.
 ```
 
 #### **Checkpoint:**
+
 ```
 ✓ ¿Por qué usar LayerMask en lugar de detectar todos los colliders?
 ✓ ¿Cuál es la diferencia entre OverlapCircle y CircleCast?
@@ -546,12 +583,14 @@ Esto te ayudará MUCHO a debuggear.
 ### 🤖 FEATURE 6: Enemy AI 2D - State Machine (4-6h)
 
 #### **Conceptos a Aprender:**
+
 - Finite State Machines (FSM)
 - Enum para estados
 - Switch statements
 - AI básica (patrol, chase, attack)
 
 #### **Estudio Previo (30 min):**
+
 ```
 INVESTIGACIÓN OBLIGATORIA antes de codear:
 
@@ -573,6 +612,7 @@ Diseña TU solución en papel antes de codear.
 ```
 
 #### **Tu Tarea - Iteración 1 (Setup y Estados):**
+
 ```
 OBJETIVO: Estructura básica de State Machine
 
@@ -596,6 +636,7 @@ Implementa esto. Es la base de todo.
 ```
 
 #### **Tu Tarea - Iteración 2 (Patrol State):**
+
 ```
 OBJETIVO: Enemigo patrulla left/right
 
@@ -623,6 +664,7 @@ DESAFÍO: No copies código. Piensa cómo lo harías.
 ```
 
 #### **Tu Tarea - Iteración 3 (Chase State):**
+
 ```
 OBJETIVO: Enemy persigue al player
 
@@ -642,6 +684,7 @@ IMPLEMENTA:
 ```
 
 #### **Tu Tarea - Iteración 4 (Attack State):**
+
 ```
 OBJETIVO: Enemy ataca cuando está cerca
 
@@ -664,6 +707,7 @@ IMPLEMENTA:
 ```
 
 #### **Debugging Challenge:**
+
 ```
 Problemas que enfrentarás:
 
@@ -682,6 +726,7 @@ Problemas que enfrentarás:
 ```
 
 #### **Checkpoint:**
+
 ```
 ✓ Dibuja el state diagram de tu enemigo
 ✓ Explica cuándo ocurre cada transición
@@ -720,12 +765,14 @@ APRENDIZAJE:
 **⚠️ ESTE ES EL SISTEMA MÁS COMPLEJO. Tómate tu tiempo para entenderlo.**
 
 #### **Conceptos a Aprender:**
+
 - ScriptableObjects
 - Modular design
 - Stats modifiers
 - Spawning objects on death
 
 #### **Estudio Previo OBLIGATORIO (1h):**
+
 ```
 ANTES de escribir UNA SOLA línea:
 
@@ -752,6 +799,7 @@ NO SIGAS HASTA QUE HAYAS HECHO ESTO.
 ```
 
 #### **Tu Tarea - Fase 1: ScriptableObject (1-2h):**
+
 ```
 OBJETIVO: Data container para transformaciones
 
@@ -761,7 +809,7 @@ OBJETIVO: Data container para transformaciones
    [CreateAssetMenu(...)]
 
 3. Propiedades a definir:
-   - string transformName (ej: "Pez")
+   - string transformName (ej: "Frog", "Spider", "Ladybug")
    - GameObject modelPrefab (modelo 3D)
    - float speedMultiplier
    - float jumpMultiplier
@@ -770,16 +818,25 @@ OBJETIVO: Data container para transformaciones
    - bool canFitSmallGaps
 
 4. Crear 3 ScriptableObjects en Unity:
-   - Transformation_Fish
+   - Transformation_Frog (anfibio - puede nadar Y combatir)
    - Transformation_Spider
    - Transformation_Ladybug
 
-5. Llenar valores en Inspector
+5. Llenar valores en Inspector:
+   Frog: speed 1.0x, jump 1.5x, canSwim=true
+   Spider: speed 1.0x, jump 1.2x, canWallClimb=true
+   Ladybug: speed 1.2x, jump 0.8x, canFitSmallGaps=true
+
+> **NOTA DE DISEÑO:** Cambiamos Fish → Frog porque:
+> - Frog es anfibio: puede combatir en tierra Y agua
+> - Player base MUERE en agua sin transformación
+> - Esto crea un gating natural para exploración
 
 INVESTIGA: ¿Por qué usar ScriptableObject en vez de una clase normal?
 ```
 
 #### **Tu Tarea - Fase 2: PlayerTransform Component (2-3h):**
+
 ```
 OBJETIVO: Sistema que gestiona las transformaciones
 
@@ -812,6 +869,7 @@ IMPLEMENTA tú mismo. Si te atoras, pide ayuda ESPECÍFICA.
 ```
 
 #### **Tu Tarea - Fase 3: TransformMask Collectible (1h):**
+
 ```
 OBJETIVO: Item que transforma al player
 
@@ -834,6 +892,7 @@ OBJETIVO: Item que transforma al player
 ```
 
 #### **Tu Tarea - Fase 4: MaskDrop on Enemy Death (1h):**
+
 ```
 OBJETIVO: Enemy dropea máscara al morir
 
@@ -857,6 +916,7 @@ OBJETIVO: Enemy dropea máscara al morir
 ```
 
 #### **Testing Completo (1h):**
+
 ```
 Escenario de Testing:
 
@@ -880,6 +940,7 @@ Escenario de Testing:
 ```
 
 #### **Problemas Comunes:**
+
 ```
 1. NullReferenceException al transformar:
    - Verifica que PlayerController está cacheado en Start
@@ -896,6 +957,7 @@ Escenario de Testing:
 ```
 
 #### **Checkpoint CRÍTICO:**
+
 ```
 Antes de continuar al Día 4:
 
@@ -933,50 +995,86 @@ APRENDIZAJE:
 
 ---
 
-### 🐟 FEATURE 8: Nadar (Water Zones) (2-3h)
+### � FEATURE 8: Water Zones & Death System (2-3h)
+
+> **MECÁNICA CRÍTICA:** Player base MUERE instantáneamente en agua. Solo Frog puede nadar.
 
 #### **Conceptos a Aprender:**
+
+- Trigger zones en 2D
+- OnTriggerStay2D vs OnTriggerEnter2D
+- Conditional gameplay basado en transformación
+- Gating natural para exploración
+- Modificación de gravedad en runtime
+
+#### **Diseño del Sistema:**
+
+```
+SIN Transformación Frog:
+Player toca agua → Muerte instantánea → Respawn
+
+CON Transformación Frog:
+Player toca agua → Puede nadar → Gravedad reducida → Puede combatir
+```
+
 - Trigger zones
 - Physics en agua (sin gravedad)
 - State temporal del player
 
 #### **Diseño Previo:**
+
 ```
 En papel:
-1. ¿Cómo funcionaría el agua?
-   - Player entra → gravedad off
-   - Player sale → gravedad on
-   - Si NO es Pez → no puede entrar (o muere)
+1. ¿Cómo funcionará el agua?
+   - Player SIN Frog entra → MUERTE instantánea
+   - Player CON Frog entra → gravedad reducida, puede nadar
+   - Player sale → gravedad normal
 
 2. ¿Cómo detectar entrada/salida?
-   - OnTriggerEnter2D / OnTriggerExit2D
+   - OnTriggerStay2D (para daño continuo)
+   - OnTriggerExit2D (para restaurar gravedad)
 
 3. Dibuja el área de agua en tu nivel
+   - Marca zonas peligrosas
+   - Diseña rutas alternativas
 ```
 
 #### **Tu Tarea:**
+
 ```
 1. Crear WaterZone.cs
 
-2. OnTriggerEnter2D:
-   - Verificar si es Player
-   - Obtener PlayerTransform
-   - Si CanSwim():
-     - Desactivar gravedad (rb.gravityScale = 0)
-     - Mensaje: "Entraste al agua"
+2. Variables:
+   - float damagePerSecond = 999f (muerte instantánea)
+   - float swimGravityScale = 0.5f
+   - float originalGravity = 3f
+
+3. OnTriggerStay2D:
+   - Verificar si es Player (CompareTag)
+   - Obtener PlayerTransform component
+   - Si PlayerTransform.CanSwim():
+     → Reducir gravedad (rb.gravityScale = swimGravityScale)
+     → Permitir movimiento libre
    - Si NO CanSwim():
-     - Pushback (AddForce hacia atrás)
-     - O aplicar daño
+     → Aplicar daño masivo (health.TakeDamage(damagePerSecond * Time.deltaTime))
+     → Muerte instantánea
 
-3. OnTriggerExit2D:
-   - Restaurar gravedad (rb.gravityScale = valor original)
+4. OnTriggerExit2D:
+   - Restaurar gravedad original (rb.gravityScale = originalGravity)
 
-4. PlayerController modificación:
-   - Agregar bool isInWater
-   - Movimiento en agua: libre en X e Y
-   - Investiga: Free movement en agua
+5. Setup en Unity:
+   - Crear GameObject "WaterZone"
+   - Agregar BoxCollider2D con "Is Trigger" = true
+   - Configurar Layer: Water (Layer 9)
+   - Agregar WaterZone.cs script
 
-IMPLEMENTA. Es más simple de lo que parece.
+6. PlayerController modificación (opcional):
+   - Movimiento en agua funciona igual que en tierra
+   - La gravedad reducida hace que "flote"
+
+> **IMPORTANTE:** Revisa `water-death-system-notes.md` para implementación completa.
+
+IMPLEMENTA. Usa el documento de diseño como referencia.
 ```
 
 ---
@@ -984,10 +1082,12 @@ IMPLEMENTA. Es más simple de lo que parece.
 ### 🕷️ FEATURE 9: Wall Climb (2-3h)
 
 #### **Conceptos a Aprender:**
+
 - Raycasting para detectar paredes
 - Cambiar movimiento según contexto
 
 #### **Diseño:**
+
 ```
 1. ¿Cómo detectar pared?
    - Raycast horizontal
@@ -1004,6 +1104,7 @@ IMPLEMENTA. Es más simple de lo que parece.
 ```
 
 #### **Tu Tarea:**
+
 ```
 1. En PlayerController2D:
 
@@ -1027,9 +1128,11 @@ DESAFÍO: Implementa sin ver código de referencia.
 ### 🐞 FEATURE 10: Small Gaps (1-2h)
 
 #### **Concepto:**
+
 - Collider más pequeño o gate específico
 
 #### **Diseño Simple:**
+
 ```
 Opción A: Cambiar tamaño del collider
 - Al transformar en Mariquita:
@@ -1041,6 +1144,7 @@ Opción B: Gate con trigger
 ```
 
 #### **Tu Tarea:**
+
 ```
 Elige la opción que prefieras e implementa.
 
@@ -1072,6 +1176,7 @@ APRENDIZAJE:
 ### **Objetivo**: Hacer el juego jugable y pulido
 
 #### **Features del Día:**
+
 - UI (Health bar, transform indicator)
 - GameManager (restart, game over)
 - Audio (SFX + music)
@@ -1090,6 +1195,7 @@ APRENDIZAJE:
 ## 📚 RECURSOS DE APRENDIZAJE GENERAL
 
 ### **Unity Docs (Tu Mejor Amigo):**
+
 ```
 docs.unity3d.com
 
@@ -1102,6 +1208,7 @@ Busca SIEMPRE en docs antes de preguntar:
 ```
 
 ### **YouTube Channels:**
+
 ```
 - Brackeys (basics)
 - Code Monkey (intermediate)
@@ -1110,6 +1217,7 @@ Busca SIEMPRE en docs antes de preguntar:
 ```
 
 ### **C# Fundamentals:**
+
 ```
 - microsoft.com/learn/csharp
 - Events and Delegates tutorial
@@ -1121,6 +1229,7 @@ Busca SIEMPRE en docs antes de preguntar:
 ## 🆘 CÓMO PEDIR AYUDA EFECTIVAMENTE
 
 ### **❌ MAL:**
+
 ```
 "No funciona, ayuda"
 "Tengo un error"
@@ -1128,6 +1237,7 @@ Busca SIEMPRE en docs antes de preguntar:
 ```
 
 ### **✅ BIEN:**
+
 ```
 "Mi player atraviesa el suelo. Configuré:
 - Rigidbody2D: Dynamic, Gravity 3
@@ -1146,6 +1256,7 @@ Screenshot: [adjuntar]
 ```
 
 ### **Información a Incluir Siempre:**
+
 ```
 1. ¿Qué intentas lograr?
 2. ¿Qué pasa actualmente?
@@ -1160,6 +1271,7 @@ Screenshot: [adjuntar]
 ## 🎓 FILOSOFÍA DE APRENDIZAJE
 
 ### **El Error es tu Maestro:**
+
 ```
 Cada error que resuelves TÚ SOLO = aprendizaje permanente
 Cada error que te resuelvo yo = aprendizaje temporal
@@ -1168,6 +1280,7 @@ Meta: Que puedas implementar un juego completo TÚ SOLO después de esta jam.
 ```
 
 ### **No Copies y Pegues:**
+
 ```
 Si ves código de referencia:
 1. Léelo línea por línea
@@ -1180,6 +1293,7 @@ Copiar/pegar = 0 aprendizaje
 ```
 
 ### **Debug.Log es tu Superpoder:**
+
 ```
 Usa Debug.Log en TODOS LADOS:
 - Antes y después de cambiar valores
@@ -1195,6 +1309,7 @@ Programadores pro usan Debug.Log TODO el tiempo.
 ## 📊 TRACKING DE PROGRESO
 
 ### **Daily Log (Llenar cada noche):**
+
 ```
 DÍA: [fecha]
 
@@ -1255,6 +1370,7 @@ Y lo más importante:
 ## 📞 ESTOY AQUÍ PARA TI
 
 Recuerda:
+
 - Intenta primero (30 min mínimo)
 - Pide ayuda específica cuando te atores
 - No tengas miedo de preguntar "por qué"

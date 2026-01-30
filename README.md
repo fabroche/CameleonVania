@@ -27,7 +27,7 @@ Defeat Enemy → Collect Mask → Transform → Gain Abilities → Explore New A
 
 **Planned Transformations:**
 
-- 🐟 **Fish** - Swim through water sections
+- 🐸 **Frog** - Swim through water sections (player dies in water without this!)
 - 🕷️ **Spider** - Climb walls and ceilings
 - 🐞 **Ladybug** - Fit through small gaps
 
@@ -59,7 +59,7 @@ Defeat Enemy → Collect Mask → Transform → Gain Abilities → Explore New A
 
 ### 📅 Planned (Day 4 - Special Abilities)
 
-- 📋 **Swimming (Water Zones)** - Fish transformation ability
+- 📋 **Water Zones & Death System** - Player dies in water; Frog transformation enables swimming
 - 📋 **Wall Climbing** - Spider transformation ability
 - 📋 **Small Gaps** - Ladybug transformation ability
 
