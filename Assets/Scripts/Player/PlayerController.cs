@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D _rb;
     private float _moveInput;
+    
+    [Header("Debug")] [Tooltip("Mostrar logs de entrada/salida")] [SerializeField]
+    private bool debugLogs = false;
 
     [Header("Jump Settings")] public float jumpForce = 10f;
 
@@ -16,15 +19,25 @@ public class PlayerController : MonoBehaviour
 
     private bool _isGrounded;
 
-    [Header("Knockback/Stun")]
-    private bool isStunned = false;
+    [Header("Knockback/Stun")] private bool isStunned = false;
     private float stunEndTime = 0f;
     private float stunDuration = 0.3f;
+
+    [Header("Swimming")] [Tooltip("Si está actualmente en agua")]
+    private bool isInWater = false;
+
+    [Tooltip("Fuerza de salto/natación en agua (más débil que salto normal)")] [SerializeField]
+    private float swimJumpForce = 4f;
+
+    [Tooltip("Cooldown entre saltos en agua")] [SerializeField]
+    private float swimJumpCooldown = 0.3f;
+
+    private float lastSwimJumpTime = -999f;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        
+
         // Ensure this GameObject has the "Player" tag
         ValidatePlayerTag();
 
@@ -34,6 +47,21 @@ public class PlayerController : MonoBehaviour
         {
             health.OnTakeDamageWithKnockback += HandleKnockback;
         }
+    }
+    
+    void OnEnable()
+    {
+        // Suscribirse a eventos
+        WaterEvents.OnPlayerEnterWater += HandleEnterWater;
+        WaterEvents.OnPlayerExitWater += HandleExitWater;
+        WaterEvents.OnSwimStateChanged += HandleSwimStateChange;
+    }
+
+    void OnDisable()
+    {
+        WaterEvents.OnPlayerEnterWater -= HandleEnterWater;
+        WaterEvents.OnPlayerExitWater -= HandleExitWater;
+        WaterEvents.OnSwimStateChanged -= HandleSwimStateChange;
     }
 
     private void OnDestroy()
@@ -53,10 +81,10 @@ public class PlayerController : MonoBehaviour
         {
             float knockbackForce = damage * 0.5f; // Proportional to damage
             _rb.AddForce(direction.normalized * knockbackForce, ForceMode2D.Impulse);
-            
+
             isStunned = true;
             stunEndTime = Time.time + stunDuration;
-            
+
             Debug.Log($"[Player] Knocked back! Stunned for {stunDuration}s");
         }
     }
@@ -100,6 +128,7 @@ public class PlayerController : MonoBehaviour
             {
                 isStunned = false;
             }
+
             return; // Skip movement during stun
         }
 
@@ -112,8 +141,58 @@ public class PlayerController : MonoBehaviour
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
         }
+        else if (Input.GetButtonDown("Jump") && isInWater)
+        {
+            if (Time.time >= lastSwimJumpTime + swimJumpCooldown)
+            {
+                _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, swimJumpForce);
+                lastSwimJumpTime = Time.time;
+            }
+        }
     }
 
+    public void SetInWater(bool inWater)
+    {
+        isInWater = inWater;
+        Debug.Log($"[PlayerController] In water: {inWater}");
+    }
+    
+    private void HandleEnterWater(GameObject player, bool canSwim)
+    {
+        if (player != gameObject) return;
+
+        isInWater = canSwim;
+
+        if (debugLogs)
+        {
+            Debug.Log($"[PlayerController] Entered water. CanSwim: {canSwim}");
+        }
+    }
+    
+    private void HandleExitWater(GameObject player)
+    {
+        if (player != gameObject) return;
+
+        isInWater = false;
+
+        if (debugLogs)
+        {
+            Debug.Log($"[PlayerController] Exited water");
+        }
+    }
+    
+    private void HandleSwimStateChange(GameObject player, bool canSwim)
+    {
+        if (player != gameObject) return;
+
+        isInWater = canSwim;
+
+        if (debugLogs)
+        {
+            Debug.Log($"[PlayerController] Swim state changed. CanSwim: {canSwim}");
+        }
+    }
+    
     void OnDrawGizmosSelected()
     {
         if (groundCheckPoint == null) return;
