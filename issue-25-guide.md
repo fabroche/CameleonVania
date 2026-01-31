@@ -180,15 +180,15 @@ Player (GameObject)
 ├── CapsuleCollider2D (NO rotar)
 ├── PlayerController.cs
 ├── PlayerTransform.cs
-└── Visual (Child GameObject) ← ROTAR ESTE
-    ├── Transform (rotation aquí)
-    └── ModelContainer (mesh 3D o sprite)
+└── model3DParent (Transform) ← ROTAR ESTE (ya existe)
+    └── currentModel (instanciado dinámicamente)
 ```
 
-**¿Por qué separar Visual?**
+**¿Por qué separar model3DParent?**
 - ✅ Rotar modelo NO afecta física
 - ✅ Raycasts siguen apuntando correctamente
 - ✅ Collider no se deforma
+- ✅ Ya está configurado en tu proyecto por PlayerTransform
 
 ---
 
@@ -228,7 +228,7 @@ Transición CLIMBING → NORMAL:
 
 | ❌ Problema | ✅ Solución |
 |------------|-----------|
-| Rotar el Player completo → Física rota | Rotar solo child "Visual" |
+| Rotar el Player completo → Física rota | Rotar solo model3DParent (child) |
 | Raycasts apuntan en dirección incorrecta después de rotar | Usar transform.position como origin, direcciones en world space |
 | Controles invertidos en techo | Lógica específica por superficie |
 | Player se "pega" al suelo al caminar | Solo climbing si NO está en suelo (isGrounded = false) |
@@ -279,72 +279,98 @@ Esto nos da la dirección perpendicular al normal, que es "derecha" en la superf
 
 ### Setup Previo en Unity
 
-#### Paso 0: Preparar Jerarquía Visual
+#### Paso 0: Verificar Jerarquía Visual (Ya Configurada)
 
-**IMPORTANTE:** Antes de empezar a codear, necesitas separar el modelo visual del GameObject principal.
+**BUENAS NOTICIAS:** Tu proyecto ya tiene la estructura correcta configurada por `PlayerTransform.cs`.
 
-**¿Por qué?**
-- Rotar el Player completo afecta física, raycasts, colliders
-- Solo queremos rotar el **visual** (feedback)
+**Estructura actual:**
 
-**TU TURNO:** Reorganiza la jerarquía en Unity.
+```
+Player (GameObject root)
+├── Rigidbody2D (física aquí)
+├── CapsuleCollider2D
+├── PlayerController
+├── PlayerTransform
+├── Health
+└── model3DParent (Transform) ← ESTE es tu "Visual"
+    └── currentModel (instanciado dinámicamente)
+```
+
+**¿Por qué funciona?**
+- ✅ `Player` root = Física (Rigidbody2D, Collider) NO se rota
+- ✅ `model3DParent` = Visual que SÍ se rotará
+- ✅ Modelo instanciado hereda rotación del parent
+
+---
+
+**TU ÚNICA TAREA:** Asignar referencia en PlayerController.
 
 <details>
-<summary>💡 Pista: Estructura recomendada</summary>
+<summary>💡 Pista: ¿Qué necesito hacer?</summary>
 
-```
-En Hierarchy:
+En `PlayerController.cs`, agregar una variable que apunte a `model3DParent`:
 
-Player (GameObject actual)
-├── Componentes físicos (aquí)
-│   ├── Rigidbody2D
-│   ├── CapsuleCollider2D
-│   ├── PlayerController
-│   ├── PlayerTransform
-│   └── Health
-└── Visual (Child GameObject NUEVO)
-    └── [Tu modelo 3D o sprite actual]
-```
-
-**Pasos:**
-1. Click derecho en Player → Create Empty Child → Renombrar "Visual"
-2. Arrastrar tu modelo/sprite actual DENTRO de "Visual"
-3. Asegurarte que Visual está en posición local (0, 0, 0)
-</details>
-
-<details>
-<summary>✅ Solución: Setup completo</summary>
-
-**Pasos detallados:**
-
-1. **Selecciona Player en Hierarchy**
-2. **Create Empty Child:**
-   - Click derecho → Create Empty
-   - Renombrar: "Visual"
-   - Transform: Position (0, 0, 0), Rotation (0, 0, 0), Scale (1, 1, 1)
-
-3. **Mover modelo actual:**
-   - Si tienes un MeshRenderer o SpriteRenderer en Player, moverlo a Visual
-   - O si tienes un child con el modelo, moverlo dentro de Visual
-
-4. **Estructura final:**
-```
-Player
-├── Rigidbody2D (en Player root)
-├── CapsuleCollider2D (en Player root)
-├── Scripts (en Player root)
-└── Visual (child)
-    └── Model (mesh o sprite)
-```
-
-5. **En PlayerController, agregar referencia:**
 ```csharp
-[Header("Visual")]
+[Header("Visual Feedback")]
 [SerializeField] private Transform visualTransform;
 ```
 
-6. **Asignar en Inspector:**
-   - Arrastrar "Visual" GameObject a `visualTransform` field
+Luego en Unity Inspector:
+- Seleccionar Player
+- Arrastrar `model3DParent` al campo `visualTransform`
+</details>
+
+<details>
+<summary>✅ Solución: Asignación automática</summary>
+
+**Opción A: Asignar manualmente en Inspector (Recomendado)**
+
+1. **Agregar variable en PlayerController.cs:**
+```csharp
+[Header("Visual Feedback")]
+[Tooltip("Transform del model3DParent para rotar el modelo")]
+[SerializeField] private Transform visualTransform;
+```
+
+2. **En Unity Inspector:**
+   - Selecciona **Player** en Hierarchy
+   - En componente **PlayerController**
+   - Arrastra **model3DParent** (child del Player) al campo **visualTransform**
+
+---
+
+**Opción B: Asignación automática en código**
+
+```csharp
+void Start()
+{
+    _rb = GetComponent<Rigidbody2D>();
+    originalGravity = _rb.gravityScale;
+
+    // Obtener referencia automática desde PlayerTransform
+    PlayerTransform pt = GetComponent<PlayerTransform>();
+    if (pt != null && visualTransform == null)
+    {
+        visualTransform = pt.model3DParent;
+        Debug.Log("[PlayerController] visualTransform auto-assigned to model3DParent");
+    }
+
+    // Verificar que se asignó
+    if (visualTransform == null)
+    {
+        Debug.LogWarning("[PlayerController] visualTransform no asignado! Rotación visual no funcionará.");
+    }
+}
+```
+
+**Estructura final verificada:**
+```
+Player (NO rota - física intacta)
+└── model3DParent (SÍ rota - solo visual)
+    └── modelo instanciado (hereda rotación)
+```
+
+✅ **No necesitas crear nuevos GameObjects**, tu estructura actual es perfecta.
 </details>
 
 ---
@@ -383,8 +409,9 @@ private bool isClimbing = false;
 private Vector2 currentSurfaceNormal = Vector2.zero;
 private float originalGravity;
 
-// Referencia al transform visual (para rotación)
+// Referencia al transform visual (model3DParent de PlayerTransform)
 [Header("Visual Feedback")]
+[Tooltip("Transform del model3DParent - asignar desde Inspector o auto-assign en Start")]
 [SerializeField] private Transform visualTransform;
 [SerializeField] private float rotationSpeed = 10f;
 ```
@@ -407,7 +434,7 @@ private float originalGravity;
 [SerializeField] private Vector2 wallJumpForce = new Vector2(6f, 10f);
 
 [Header("Visual Feedback")]
-[Tooltip("Transform del child 'Visual' para rotar el modelo")]
+[Tooltip("Transform del model3DParent para rotar el modelo")]
 [SerializeField] private Transform visualTransform;
 
 [Tooltip("Velocidad de rotación del modelo (suavidad)")]
@@ -460,6 +487,17 @@ void Start()
 
     // Guardar gravedad original para restaurar después de climbing
     originalGravity = _rb.gravityScale;
+
+    // Auto-asignar visualTransform desde PlayerTransform si no está asignado
+    if (visualTransform == null)
+    {
+        PlayerTransform pt = GetComponent<PlayerTransform>();
+        if (pt != null && pt.model3DParent != null)
+        {
+            visualTransform = pt.model3DParent;
+            Debug.Log("[PlayerController] visualTransform auto-assigned to model3DParent");
+        }
+    }
 
     // Verificar que visualTransform está asignado
     if (visualTransform == null)
@@ -1192,12 +1230,12 @@ void Update()
 
 ### Paso 8: Rotación Visual del Modelo
 
-**TU TURNO:** Implementa el método que rota el child "Visual" según la superficie.
+**TU TURNO:** Implementa el método que rota el `model3DParent` según la superficie.
 
 **Requisitos:**
 1. Calcular rotación objetivo según estado (climbing o normal)
 2. Aplicar rotación suavemente (Lerp)
-3. Solo rotar el child "Visual", NO el Player root
+3. Solo rotar `model3DParent`, NO el Player root
 
 <details>
 <summary>💡 Pista 1: Calcular rotación objetivo</summary>
@@ -1365,10 +1403,12 @@ void OnDrawGizmos()
 
 Antes de testear, necesitas:
 
-**1. Asignar visualTransform:**
+**1. Verificar visualTransform:**
 - Selecciona Player en Hierarchy
 - En Inspector, PlayerController
-- Arrastra child "Visual" a field `visualTransform`
+- Verifica que `visualTransform` apunta a `model3DParent`
+- Si no está asignado, arrástralo manualmente desde Hierarchy
+- O confía en la auto-asignación en Start()
 
 **2. Crear escenario de test:**
 - Paredes verticales a ambos lados
@@ -1509,9 +1549,10 @@ Antes de testear, necesitas:
 - Física NO afectada por rotación (solo visual)
 
 **Debugging:**
-- Si no rota: Verificar que `visualTransform` está asignado
+- Si no rota: Verificar que `visualTransform` apunta a `model3DParent`
 - Si rota el Player completo: Verificar que estás rotando `visualTransform`, NO `transform`
 - Si rotación es brusca: Aumentar `rotationSpeed`
+- Para verificar: `Debug.Log($"Rotating: {visualTransform.name}");` debe mostrar "model3DParent"
 
 ---
 
@@ -1667,6 +1708,7 @@ if (hasSurface && wantsToClimb && canStartClimbing) {
 **Causa:**
 ```csharp
 ❌ Estás rotando transform en lugar de visualTransform
+❌ visualTransform apunta al Player root en lugar de model3DParent
 ```
 
 **Solución:**
@@ -1675,7 +1717,12 @@ if (hasSurface && wantsToClimb && canStartClimbing) {
 visualTransform.rotation = Quaternion.Euler(0f, 0f, newZ);
 // NO: transform.rotation
 
-// Verificar en Inspector que visualTransform está asignado
+// Verificar en Inspector:
+// visualTransform debe apuntar a "model3DParent" (child)
+
+// O verificar en código:
+Debug.Log($"Visual transform: {visualTransform.name}"); // Debe ser "model3DParent"
+Debug.Log($"Is child: {visualTransform.parent == transform}"); // Debe ser true
 ```
 
 ---
@@ -1841,7 +1888,7 @@ Luego sumamos 90° para ajustar la orientación del sprite (depende de cómo est
 </details>
 
 <details>
-<summary>❓ ¿Por qué separamos el child "Visual" en lugar de rotar el Player completo?</summary>
+<summary>❓ ¿Por qué separamos model3DParent en lugar de rotar el Player completo?</summary>
 
 **Respuesta:**
 Porque rotar el GameObject **Player** rotaría también:
@@ -1849,16 +1896,18 @@ Porque rotar el GameObject **Player** rotaría también:
 - ❌ **Collider** → Se deforma/rota, colisiones incorrectas
 - ❌ **Raycasts** → Direcciones `Vector2.right`, `Vector2.up` rotarían, detección falla
 
-Al rotar solo el child **Visual**:
+Al rotar solo **model3DParent**:
 - ✅ Física sin afectar (Rigidbody2D en parent)
 - ✅ Collider sin deformar
 - ✅ Raycasts apuntan correctamente (world space)
 - ✅ Solo el feedback visual cambia
+- ✅ Ya está configurado en tu proyecto por PlayerTransform
 
-Arquitectura recomendada:
+Arquitectura actual:
 ```
 Player (0° siempre) ← Física aquí
-└── Visual (rota) ← Solo visual
+└── model3DParent (rota) ← Solo visual (ya existe)
+    └── currentModel (hereda rotación)
 ```
 </details>
 
