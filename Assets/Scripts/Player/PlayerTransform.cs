@@ -27,8 +27,8 @@ public class PlayerTransform : MonoBehaviour
     public Transform model3DParent;
     
     [Header("Base Model")]
-    [Tooltip("SpriteRenderer del modelo base del player (se oculta al transformarse)")]
-    [SerializeField] private SpriteRenderer baseModelRenderer;
+    [Tooltip("El GameObject que contiene los gráficos base (Sprite o Modelo 3D)")]
+    [SerializeField] private GameObject baseVisualRoot;
 
     private void Start()
     {
@@ -96,18 +96,18 @@ public class PlayerTransform : MonoBehaviour
             );
             
             // Ocultar modelo base cuando hay transformación
-            if (baseModelRenderer != null)
+            if (baseVisualRoot != null)
             {
-                baseModelRenderer.enabled = false;
+                baseVisualRoot.SetActive(false);
                 Debug.Log("[PlayerTransform] Base model hidden (transformed)");
             }
         }
         else
         {
             // Mostrar modelo base cuando NO hay transformación (base form)
-            if (baseModelRenderer != null)
+            if (baseVisualRoot != null)
             {
-                baseModelRenderer.enabled = true;
+                baseVisualRoot.SetActive(true);
                 Debug.Log("[PlayerTransform] Base model shown (base form)");
             }
         }
