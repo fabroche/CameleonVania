@@ -260,6 +260,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Detecta si hay una superficie escalable cerca (pared, techo).
     /// Usa 4 raycasts para detectar en todas las direcciones.
+    /// La prioridad depende del input del player (hacia arriba = techo, horizontal = pared).
     /// </summary>
     /// <param name="surfaceNormal">Normal de la superficie detectada</param>
     /// <returns>True si hay superficie escalable</returns>
@@ -276,7 +277,23 @@ public class PlayerController : MonoBehaviour
         RaycastHit2D hitUp = Physics2D.Raycast(origin, Vector2.up, wallCheckDistance, groundLayer);
         // Raycast Down es opcional (para detectar si está en suelo y NO permitir climb)
 
-        // Verificar cuál detectó algo (prioridad: paredes primero, luego techo)
+        // 🔧 FIX: Smart priority basado en input del player
+        float verticalInput = Input.GetAxis("Vertical");
+
+        // Si está climbing Y presiona hacia arriba → Priorizar techo
+        if (_isClimbing && verticalInput > 0.1f && hitUp.collider != null)
+        {
+            surfaceNormal = hitUp.normal;
+
+            if (debugLogs)
+            {
+                Debug.Log($"[PlayerController] Surface detected UP (ceiling) - PRIORITY (input up). Normal: {surfaceNormal}");
+            }
+
+            return true;
+        }
+
+        // Prioridad normal: paredes primero, luego techo
         if (hitRight.collider != null)
         {
             surfaceNormal = hitRight.normal;
@@ -449,6 +466,9 @@ public class PlayerController : MonoBehaviour
 
             // Restaurar gravedad normal
             _rb.gravityScale = _originalGravity;
+
+            // 🔧 FIX: Desactivar flag de climbing physics
+            _shouldApplyClimbingPhysics = false;
 
             // Calcular dirección horizontal del salto
             // Si está mirando derecha (pared a la derecha), saltar hacia la izquierda
