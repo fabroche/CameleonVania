@@ -125,6 +125,21 @@ Lista de mejoras de polish pendientes para implementar en la fase de polish del 
 - [ ] Transformation sound effects
 - [ ] Smooth transition animations
 
+#### Water Zones & Swimming (Issue #24)
+- [ ] **Visual Feedback**
+  - Water shader/sprite animado
+  - Splash particles al entrar/salir del agua
+  - Bubble particles mientras nada
+  - Distortion effect bajo el agua
+- [ ] **Audio Feedback**
+  - Sonido de chapuzón al entrar
+  - Sonido ambiente bajo el agua
+  - Burbujas mientras nada
+- [ ] **Gameplay Feel**
+  - Swim speed boost (moverte más rápido en agua)
+  - Jump desde agua (saltar al salir)
+  - Water current (corriente que empuja)
+
 ### Level Design Polish
 
 - [ ] Background parallax
@@ -153,4 +168,4 @@ Lista de mejoras de polish pendientes para implementar en la fase de polish del 
 
 **Estimación Total:** 4-6 horas para P0-P1 items
 
-**Última actualización:** 28 de Enero, 2026
+**Última actualización:** 31 de Enero, 2026
