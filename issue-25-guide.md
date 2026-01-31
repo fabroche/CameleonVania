@@ -765,41 +765,44 @@ private float GetRotationFromNormal(Vector2 normal)
 
 ---
 
-### Paso 5: Movimiento en Climbing
+### Paso 5: Calcular Dirección de Climbing (Flag Pattern)
 
-**TU TURNO:** Implementa el método que controla el movimiento mientras escalas.
+**IMPORTANTE:** Siguiendo el patrón de tu proyecto (Movement en Update, física en FixedUpdate), vamos a separar:
+- **Update()**: Calcular dirección de movimiento
+- **FixedUpdate()**: Aplicar física al Rigidbody2D
+
+**TU TURNO:** Implementa el método que CALCULA (no aplica) la dirección de movimiento.
 
 **Requisitos:**
 1. En **paredes**: Vertical = arriba/abajo, Horizontal = NO usado
 2. En **techo**: Horizontal = izq/der, Vertical = despegarse (o ignorar)
-3. Aplicar velocidad al Rigidbody2D
+3. **NO aplicar velocidad** (solo calcular dirección)
+4. Retornar Vector2 con la dirección calculada
 
 **Pseudocódigo:**
 ```
-ClimbingMovement(surfaceNormal):
-    1. Leer Input (Horizontal, Vertical)
-    2. Determinar tipo de superficie (pared vs techo)
-    3. Si es pared → usar Input Vertical
-    4. Si es techo → usar Input Horizontal
-    5. Calcular dirección de movimiento
-    6. Aplicar rb.linearVelocity
+CalculateClimbingDirection(surfaceNormal, verticalInput, horizontalInput):
+    1. Determinar tipo de superficie (pared vs techo)
+    2. Si es pared → usar Input Vertical (Vector2.up/down * speed)
+    3. Si es techo → usar Input Horizontal (Vector2.left/right * speed)
+    4. RETORNAR dirección (NO aplicar todavía)
 ```
 
 <details>
 <summary>💡 Pista 1: Detectar tipo de superficie</summary>
 
 ```csharp
-private void ClimbingMovement(Vector2 surfaceNormal)
+private Vector2 CalculateClimbingDirection(Vector2 surfaceNormal, float verticalInput, float horizontalInput)
 {
     // Determinar tipo de superficie
     bool isWall = Mathf.Abs(surfaceNormal.x) > 0.5f; // Normal horizontal → pared
     bool isCeiling = surfaceNormal.y < -0.5f; // Normal apunta abajo → techo
 
-    // Leer input
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
+    Vector2 climbDirection = Vector2.zero;
 
-    // TODO: Aplicar movimiento según tipo
+    // TODO: Calcular dirección según tipo
+
+    return climbDirection;
 }
 ```
 </details>
@@ -808,48 +811,46 @@ private void ClimbingMovement(Vector2 surfaceNormal)
 <summary>💡 Pista 2: Movimiento por tipo</summary>
 
 ```csharp
-private void ClimbingMovement(Vector2 surfaceNormal)
+private Vector2 CalculateClimbingDirection(Vector2 surfaceNormal, float verticalInput, float horizontalInput)
 {
     bool isWall = Mathf.Abs(surfaceNormal.x) > 0.5f;
     bool isCeiling = surfaceNormal.y < -0.5f;
 
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-
-    Vector2 climbVelocity = Vector2.zero;
+    Vector2 climbDirection = Vector2.zero;
 
     if (isCeiling)
     {
         // TECHO: Horizontal mueve left/right
-        climbVelocity = new Vector2(horizontal * climbSpeed, 0f);
+        climbDirection = new Vector2(horizontalInput * climbSpeed, 0f);
     }
     else if (isWall)
     {
         // PARED: Vertical mueve up/down
-        climbVelocity = new Vector2(_rb.linearVelocity.x, vertical * climbSpeed);
+        // Mantener velocidad horizontal actual
+        climbDirection = new Vector2(_rb.linearVelocity.x, verticalInput * climbSpeed);
     }
 
-    _rb.linearVelocity = climbVelocity;
+    return climbDirection; // Retornar, NO aplicar
 }
 ```
 </details>
 
 <details>
-<summary>✅ Solución Completa - ClimbingMovement</summary>
+<summary>✅ Solución Completa - CalculateClimbingDirection + ApplyClimbingPhysics</summary>
+
+**Paso 5A: Calcular Dirección (Update)**
 
 ```csharp
 /// <summary>
-/// Controla el movimiento del player mientras escala.
-/// - En paredes: Input Vertical = arriba/abajo
-/// - En techo: Input Horizontal = izquierda/derecha
+/// Calcula la dirección de movimiento en climbing (NO aplica física).
+/// Llamado desde Update() para calcular, física se aplica en FixedUpdate().
 /// </summary>
 /// <param name="surfaceNormal">Normal de la superficie actual</param>
-private void ClimbingMovement(Vector2 surfaceNormal)
+/// <param name="verticalInput">Input vertical del player</param>
+/// <param name="horizontalInput">Input horizontal del player</param>
+/// <returns>Vector2 con la dirección de movimiento</returns>
+private Vector2 CalculateClimbingDirection(Vector2 surfaceNormal, float verticalInput, float horizontalInput)
 {
-    // Leer input del player
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-
     // Determinar tipo de superficie basado en el normal
     // PARED: normal.x significativo (apunta horizontal)
     bool isWall = Mathf.Abs(surfaceNormal.x) > 0.5f;
@@ -857,15 +858,14 @@ private void ClimbingMovement(Vector2 surfaceNormal)
     // TECHO: normal.y apunta hacia abajo (< -0.5)
     bool isCeiling = surfaceNormal.y < -0.5f;
 
-    Vector2 climbVelocity = Vector2.zero;
+    Vector2 climbDirection = Vector2.zero;
 
     if (isCeiling)
     {
         // TECHO: Movimiento horizontal (left/right)
-        // Input Vertical no se usa (o podría "despegarse")
-        climbVelocity = new Vector2(horizontal * climbSpeed, 0f);
+        climbDirection = new Vector2(horizontalInput * climbSpeed, 0f);
 
-        if (debugLogs && vertical != 0f)
+        if (debugLogs && verticalInput != 0f)
         {
             Debug.Log("[PlayerController] En techo - Input Vertical ignorado");
         }
@@ -873,37 +873,113 @@ private void ClimbingMovement(Vector2 surfaceNormal)
     else if (isWall)
     {
         // PARED: Movimiento vertical (up/down)
-        // Input Horizontal podría cambiar facing direction
-        climbVelocity = new Vector2(_rb.linearVelocity.x, vertical * climbSpeed);
+        // Mantener velocidad horizontal actual (no interferir con movimiento lateral)
+        climbDirection = new Vector2(_rb.linearVelocity.x, verticalInput * climbSpeed);
 
         // Opcional: Cambiar facing direction con horizontal
-        if (horizontal > 0.1f)
+        if (horizontalInput > 0.1f)
         {
-            isFacingRight = true;
+            _isFacingRight = true;
         }
-        else if (horizontal < -0.1f)
+        else if (horizontalInput < -0.1f)
         {
-            isFacingRight = false;
+            _isFacingRight = false;
         }
     }
     else
     {
         // SUELO u otra superficie: No debería estar climbing
         Debug.LogWarning("[PlayerController] Climbing en superficie no reconocida");
-        climbVelocity = Vector2.zero;
+        climbDirection = Vector2.zero;
     }
 
-    // Aplicar velocidad al Rigidbody2D
-    _rb.linearVelocity = climbVelocity;
+    return climbDirection; // RETORNAR, NO aplicar
 }
 ```
 
-**Explicación:**
-- `Mathf.Abs(surfaceNormal.x) > 0.5f` → Si el normal tiene componente X grande, es pared vertical
-- `surfaceNormal.y < -0.5f` → Si el normal apunta hacia abajo, es techo
-- En techo: Solo movimiento horizontal (como caminar boca abajo)
-- En pared: Solo movimiento vertical (subir/bajar)
-- Opcionalmente, horizontal en pared cambia facing direction
+---
+
+**Paso 5B: Aplicar Física (FixedUpdate)**
+
+```csharp
+/// <summary>
+/// Aplica física de climbing (llamado desde FixedUpdate).
+/// </summary>
+private void ApplyClimbingPhysics()
+{
+    if (_shouldApplyClimbingPhysics)
+    {
+        // APLICAR velocidad calculada en Update()
+        _rb.linearVelocity = _climbingDirection;
+
+        if (debugLogs)
+        {
+            Debug.Log($"[FixedUpdate] Applying climbing velocity: {_climbingDirection}");
+        }
+    }
+}
+```
+
+---
+
+**Paso 5C: Modificar FixedUpdate()**
+
+```csharp
+void FixedUpdate()
+{
+    // Don't apply movement if stunned
+    if (isStunned)
+    {
+        if (Time.time >= stunEndTime)
+        {
+            isStunned = false;
+        }
+        return;
+    }
+
+    // Aplicar física de climbing o movimiento normal
+    if (_shouldApplyClimbingPhysics)
+    {
+        ApplyClimbingPhysics(); // Física de climbing
+    }
+    else
+    {
+        // Movimiento horizontal normal (solo si NO está climbing)
+        _rb.linearVelocity = new Vector2(_moveInput * moveSpeed, _rb.linearVelocity.y);
+    }
+}
+```
+
+---
+
+**Explicación del Flag Pattern:**
+
+```
+Update() [Frame rate variable]
+  ↓
+HandleClimbing()
+  ↓
+ActivateClimbing()
+  ↓
+_climbingDirection = CalculateClimbingDirection()  ← Calcular
+_shouldApplyClimbingPhysics = true                 ← Flag ON
+
+⏱️ [Tiempo fijo 50fps]
+
+FixedUpdate() [Frame rate fijo]
+  ↓
+if (_shouldApplyClimbingPhysics)
+  ↓
+ApplyClimbingPhysics()
+  ↓
+_rb.linearVelocity = _climbingDirection            ← Aplicar
+```
+
+**Ventajas:**
+- ✅ Input responsivo (Update)
+- ✅ Física estable (FixedUpdate)
+- ✅ Consistente con tu código existente
+- ✅ Separación de responsabilidades
 </details>
 
 ---
@@ -1175,7 +1251,7 @@ private void HandleClimbing()
 
         // Si ya está climbing, continuar aunque no haya input
         // Si no está climbing, solo activar si hay input
-        bool wantsToClimb = isClimbing || Mathf.Abs(verticalInput) > 0.1f || Mathf.Abs(horizontalInput) > 0.1f;
+        bool wantsToClimb = _isClimbing || Mathf.Abs(verticalInput) > 0.1f || Mathf.Abs(horizontalInput) > 0.1f;
 
         // NO permitir climbing si está en el suelo (evitar "pegarse" al caminar)
         bool canStartClimbing = !_isGrounded;
@@ -1207,14 +1283,15 @@ private void HandleClimbing()
 
 ```csharp
 /// <summary>
-/// Activa el estado de climbing y ejecuta movimiento en superficie.
+/// Activa el estado de climbing y calcula dirección de movimiento.
+/// La física se aplica en FixedUpdate().
 /// </summary>
 private void ActivateClimbing(Vector2 surfaceNormal)
 {
     // ACTIVAR CLIMBING (si no estaba ya activo)
-    if (!isClimbing)
+    if (!_isClimbing)
     {
-        isClimbing = true;
+        _isClimbing = true;
         _rb.gravityScale = 0f; // Anular gravedad
 
         if (debugLogs)
@@ -1224,10 +1301,17 @@ private void ActivateClimbing(Vector2 surfaceNormal)
     }
 
     // Guardar normal actual
-    currentSurfaceNormal = surfaceNormal;
+    _currentSurfaceNormal = surfaceNormal;
 
-    // Ejecutar movimiento de climbing
-    ClimbingMovement(surfaceNormal);
+    // Leer input
+    float verticalInput = Input.GetAxis("Vertical");
+    float horizontalInput = Input.GetAxis("Horizontal");
+
+    // CALCULAR dirección (no aplicar todavía)
+    _climbingDirection = CalculateClimbingDirection(surfaceNormal, verticalInput, horizontalInput);
+
+    // Activar flag para aplicar en FixedUpdate
+    _shouldApplyClimbingPhysics = true;
 }
 
 /// <summary>
@@ -1235,10 +1319,11 @@ private void ActivateClimbing(Vector2 surfaceNormal)
 /// </summary>
 private void DeactivateClimbing()
 {
-    if (isClimbing)
+    if (_isClimbing)
     {
-        isClimbing = false;
-        _rb.gravityScale = originalGravity; // Restaurar gravedad
+        _isClimbing = false;
+        _rb.gravityScale = _originalGravity; // Restaurar gravedad
+        _shouldApplyClimbingPhysics = false; // Desactivar flag
 
         if (debugLogs)
         {
@@ -1252,10 +1337,11 @@ private void DeactivateClimbing()
 /// </summary>
 private void ForceExitClimbing()
 {
-    if (isClimbing)
+    if (_isClimbing)
     {
-        isClimbing = false;
-        _rb.gravityScale = originalGravity;
+        _isClimbing = false;
+        _rb.gravityScale = _originalGravity;
+        _shouldApplyClimbingPhysics = false; // Desactivar flag
 
         if (debugLogs)
         {
