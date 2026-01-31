@@ -502,6 +502,13 @@ public class PlayerController : MonoBehaviour
         // Verificar si tiene habilidad de wall climbing (Spider transformation)
         if (pt != null && pt.CanWallClimb())
         {
+            // 🔧 FIX: Forzar salida si toca el suelo (evita quedarse pegado)
+            if (_isGrounded && _isClimbing)
+            {
+                DeactivateClimbing();
+                return; // Salir temprano, no seguir verificando
+            }
+
             // Detectar superficie escalable cerca
             bool hasSurface = CheckClimbableSurface(out Vector2 surfaceNormal);
 
@@ -509,9 +516,13 @@ public class PlayerController : MonoBehaviour
             float verticalInput = Input.GetAxis("Vertical");
             float horizontalInput = Input.GetAxis("Horizontal");
 
-            // Si ya está climbing, continuar aunque no haya input
+            // 🔧 FIX: Solo continuar climbing si HAY input de movimiento
+            // Esto permite "soltar" el techo al dejar de presionar teclas
+            bool hasMovementInput = Mathf.Abs(verticalInput) > 0.1f || Mathf.Abs(horizontalInput) > 0.1f;
+
+            // Si ya está climbing, requiere input para continuar (permite "soltar")
             // Si no está climbing, solo activar si hay input
-            bool wantsToClimb = _isClimbing || Mathf.Abs(verticalInput) > 0.1f || Mathf.Abs(horizontalInput) > 0.1f;
+            bool wantsToClimb = hasMovementInput;
 
             // NO permitir climbing si está en el suelo (evitar "pegarse" al caminar)
             bool canStartClimbing = !_isGrounded;
