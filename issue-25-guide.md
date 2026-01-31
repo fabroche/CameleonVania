@@ -1012,9 +1012,11 @@ private void WallJump()
 
 ---
 
-### Paso 7: Integrar Climbing en Update()
+### Paso 7: Integrar Climbing en Update() (Clean Code)
 
-**TU TURNO:** Modifica el método `Update()` para integrar todo el sistema.
+**IMPORTANTE:** Para mantener el código limpio y mantenible, vamos a encapsular toda la lógica de climbing en un método separado.
+
+**TU TURNO:** Modifica el método `Update()` e implementa `HandleClimbing()`.
 
 **Requisitos:**
 1. Verificar si tiene transformación Spider (PlayerTransform.CanWallClimb())
@@ -1128,7 +1130,9 @@ void Update()
 </details>
 
 <details>
-<summary>✅ Solución Completa - Update() con Climbing</summary>
+<summary>✅ Solución Completa - Update() Limpio + HandleClimbing()</summary>
+
+**Paso 7A: Update() simplificado**
 
 ```csharp
 void Update()
@@ -1138,7 +1142,24 @@ void Update()
     Jump();
 
     // === WALL CLIMBING SYSTEM ===
+    HandleClimbing(); // ← Todo encapsulado aquí
 
+    // Actualizar rotación visual (siempre, climbing o no)
+    UpdateVisualRotation();
+}
+```
+
+---
+
+**Paso 7B: Método HandleClimbing() (AGREGAR)**
+
+```csharp
+/// <summary>
+/// Maneja todo el sistema de wall climbing.
+/// Verifica habilidad, detecta superficies, activa/desactiva climbing y wall jump.
+/// </summary>
+private void HandleClimbing()
+{
     // Obtener componente PlayerTransform
     PlayerTransform pt = GetComponent<PlayerTransform>();
 
@@ -1162,37 +1183,11 @@ void Update()
         // Decidir si activar climbing
         if (hasSurface && wantsToClimb && canStartClimbing)
         {
-            // ACTIVAR CLIMBING
-            if (!isClimbing)
-            {
-                isClimbing = true;
-                _rb.gravityScale = 0f; // Anular gravedad
-
-                if (debugLogs)
-                {
-                    Debug.Log("[PlayerController] Started climbing");
-                }
-            }
-
-            // Guardar normal actual
-            currentSurfaceNormal = surfaceNormal;
-
-            // Ejecutar movimiento de climbing
-            ClimbingMovement(surfaceNormal);
+            ActivateClimbing(surfaceNormal);
         }
         else
         {
-            // DESACTIVAR CLIMBING
-            if (isClimbing)
-            {
-                isClimbing = false;
-                _rb.gravityScale = originalGravity; // Restaurar gravedad
-
-                if (debugLogs)
-                {
-                    Debug.Log("[PlayerController] Stopped climbing");
-                }
-            }
+            DeactivateClimbing();
         }
 
         // Wall Jump (siempre verificar, incluso si ya no está climbing)
@@ -1201,29 +1196,94 @@ void Update()
     else
     {
         // No tiene transformación Spider → Forzar salir de climbing
-        if (isClimbing)
-        {
-            isClimbing = false;
-            _rb.gravityScale = originalGravity;
-
-            if (debugLogs)
-            {
-                Debug.Log("[PlayerController] Lost Spider transformation - climbing disabled");
-            }
-        }
+        ForceExitClimbing();
     }
-
-    // Actualizar rotación visual (siempre, climbing o no)
-    UpdateVisualRotation();
 }
 ```
 
+---
+
+**Paso 7C: Métodos auxiliares (AGREGAR)**
+
+```csharp
+/// <summary>
+/// Activa el estado de climbing y ejecuta movimiento en superficie.
+/// </summary>
+private void ActivateClimbing(Vector2 surfaceNormal)
+{
+    // ACTIVAR CLIMBING (si no estaba ya activo)
+    if (!isClimbing)
+    {
+        isClimbing = true;
+        _rb.gravityScale = 0f; // Anular gravedad
+
+        if (debugLogs)
+        {
+            Debug.Log("[PlayerController] Started climbing");
+        }
+    }
+
+    // Guardar normal actual
+    currentSurfaceNormal = surfaceNormal;
+
+    // Ejecutar movimiento de climbing
+    ClimbingMovement(surfaceNormal);
+}
+
+/// <summary>
+/// Desactiva el estado de climbing y restaura gravedad.
+/// </summary>
+private void DeactivateClimbing()
+{
+    if (isClimbing)
+    {
+        isClimbing = false;
+        _rb.gravityScale = originalGravity; // Restaurar gravedad
+
+        if (debugLogs)
+        {
+            Debug.Log("[PlayerController] Stopped climbing");
+        }
+    }
+}
+
+/// <summary>
+/// Fuerza salida de climbing cuando se pierde la transformación Spider.
+/// </summary>
+private void ForceExitClimbing()
+{
+    if (isClimbing)
+    {
+        isClimbing = false;
+        _rb.gravityScale = originalGravity;
+
+        if (debugLogs)
+        {
+            Debug.Log("[PlayerController] Lost Spider transformation - climbing disabled");
+        }
+    }
+}
+```
+
+---
+
+**Beneficios de esta estructura:**
+
+✅ **Update() limpio y legible** (5 líneas de lógica)
+✅ **Single Responsibility Principle** (cada método hace UNA cosa)
+✅ **Fácil de debuggear** (puedes aislar problemas)
+✅ **Fácil de testear** (métodos individuales)
+✅ **Fácil de mantener** (cambios localizados)
+✅ **Profesional y escalable**
+
 **Explicación:**
-- `pt.CanWallClimb()` → Verifica que tiene transformación Spider
-- `!_isGrounded` → Evita que se "pegue" al suelo al caminar cerca de paredes
-- `wantsToClimb` → Si ya está climbing, mantener aunque no haya input (para transiciones)
-- `gravityScale = 0f` → Anula gravedad mientras escala
-- `WallJump()` → Siempre verificar, permite saltar en cualquier momento
+- `HandleClimbing()` → Orquesta toda la lógica de climbing
+- `ActivateClimbing()` → Encapsula activación de estado
+- `DeactivateClimbing()` → Encapsula desactivación de estado
+- `ForceExitClimbing()` → Maneja pérdida de transformación
+- `pt.CanWallClimb()` → Verifica transformación Spider
+- `!_isGrounded` → Evita "pegarse" al suelo
+- `wantsToClimb` → Mantiene climbing en transiciones
 </details>
 
 ---
