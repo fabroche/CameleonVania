@@ -47,6 +47,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Fuerza de wall jump (x: alejarse de pared, y: altura)")]
     [SerializeField] private Vector2 wallJumpForce = new Vector2(6f, 10f);
 
+    [Tooltip("Fuerza del salto automático al borde (Ledge Leap)")]
+    [SerializeField] private Vector2 ledgeLeapForce = new Vector2(5f, 5f);
+
     [Header("Visual Feedback")]
     [Tooltip("Transform del model3DParent para rotar el modelo")]
     [SerializeField] private Transform visualTransform;
@@ -109,6 +112,8 @@ public class PlayerController : MonoBehaviour
         _isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, groundLayer);
         _moveInput = Input.GetAxisRaw("Horizontal");
         Jump();
+        Debug.Log($"_isGrounded: {_isGrounded}");
+        Debug.Log($"_isClimbing: {_isClimbing}");
         
         // === WALL CLIMBING SYSTEM ===
         HandleClimbing();
@@ -482,11 +487,13 @@ public class PlayerController : MonoBehaviour
             );
 
             _rb.linearVelocity = wallJumpVelocity;
-
+            
             if (debugLogs)
             {
                 Debug.Log($"[PlayerController] Wall Jump! Direction: {jumpDirX}, Velocity: {wallJumpVelocity}");
             }
+
+
         }
     }
     
@@ -511,6 +518,32 @@ public class PlayerController : MonoBehaviour
 
             // Detectar superficie escalable cerca
             bool hasSurface = CheckClimbableSurface(out Vector2 surfaceNormal);
+
+            // LOGIC FOR OUTER CORNERS (Ledge Leap)
+            // Si estábamos escalando una PARED y se acaba la superficie...
+            if (_isClimbing && !hasSurface)
+            {
+                // Verificar si estábamos en una pared (normal horizontal)
+                bool wasOnWall = Mathf.Abs(_currentSurfaceNormal.x) > 0.5f;
+                // Verificar input hacia arriba
+                float vInput = Input.GetAxis("Vertical");
+
+                if (wasOnWall && vInput > 0.1f)
+                {
+                    // LEDGE LEAP!
+                    // Calcular dirección hacia el muro (opuesto al normal anterior)
+                    float dirX = -Mathf.Sign(_currentSurfaceNormal.x); 
+
+                    // Aplicar fuerza de salto hacia la plataforma
+                    _rb.linearVelocity = new Vector2(dirX * ledgeLeapForce.x, ledgeLeapForce.y);
+                    
+                    if (debugLogs) Debug.Log($"[PlayerController] Ledge Leap! Force: {_rb.linearVelocity}");
+
+                    // Salir de climbing para que la física/gravedad haga el resto y aterrice
+                    DeactivateClimbing();
+                    return;
+                }
+            }
 
             // Input de movimiento (¿quiere escalar?)
             float verticalInput = Input.GetAxis("Vertical");
@@ -587,6 +620,7 @@ public class PlayerController : MonoBehaviour
         if (_isClimbing)
         {
             _isClimbing = false;
+            _isGrounded = true;
             _rb.gravityScale = _originalGravity; // Restaurar gravedad
             _shouldApplyClimbingPhysics = false; // Desactivar flag
 
