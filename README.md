@@ -50,18 +50,18 @@ Defeat Enemy → Collect Mask → Transform → Gain Abilities → Explore New A
 - ✅ **Combat Loop** - Bidirectional knockback system with stun mechanics
 - ✅ **Gizmos Debugging** - Visual debugging tools for development
 
-### 📅 Planned (Day 3 - Transformation System)
+### ✅ Implemented (Day 3 - Complete)
 
-- 📋 **TransformationData ScriptableObject** - Data-driven transformation system
-- 📋 **PlayerTransform Component** - Transform into defeated enemies
-- 📋 **TransformMask Collectible** - Pickup items for transformation
-- 📋 **MaskDrop System** - Enemies drop masks on death
+- ✅ **TransformationData ScriptableObject** - Data-driven transformation system
+- ✅ **PlayerTransform Component** - Transform into defeated enemies
+- ✅ **TransformMask Collectible** - Pickup items for transformation
+- ✅ **MaskDrop System** - Enemies drop masks on death
 
-### 📅 Planned (Day 4 - Special Abilities)
+### 🚧 In Progress (Day 4 - Special Abilities)
 
-- 📋 **Water Zones & Death System** - Player dies in water; Frog transformation enables swimming
-- 📋 **Wall Climbing** - Spider transformation ability
-- 📋 **Small Gaps** - Ladybug transformation ability
+- ✅ **Water Zones & Swimming** - Frog transformation enables swimming mechanics
+- ✅ **Wall Climbing** - Spider can climb walls and ceilings with directional wall jump
+- 📋 **Small Gaps** - Ladybug transformation ability (pending)
 
 ### 📅 Planned (Days 5-6)
 
@@ -243,22 +243,36 @@ refactor/ → Code refactoring
 - [x] PR #21: Combat Loop Integration
 - [x] PR #23: 3D Model Integration (testing)
 
-### Day 3 📅 (29 Jan 2026) - Transformation System
+### Day 3 ✅ (29-30 Jan 2026) - Complete
 
-**Planned:**
+**Completed:**
 
-- [ ] TransformationData ScriptableObject (#14)
-- [ ] PlayerTransform component (#15)
-- [ ] TransformMask collectible (#16)
-- [ ] MaskDrop on enemy death (#17)
+- [x] TransformationData ScriptableObject (#14)
+- [x] PlayerTransform component (#15)
+- [x] TransformMask collectible (#16)
+- [x] MaskDrop on enemy death (#17)
 
-### Day 4 📅 (30 Jan 2026) - Special Abilities
+**Pull Requests:**
 
-**Planned:**
+- [x] PR #27: Transformation System Core
+- [x] PR #28: TransformMask & MaskDrop
 
-- [ ] Swimming - Water Zones (#24)
-- [ ] Wall Climbing (#25)
-- [ ] Small Gaps - Mariquita (#26)
+### Day 4 🚧 (31 Jan - 1 Feb 2026) - In Progress (66% Complete)
+
+**Completed:**
+
+- [x] Swimming - Water Zones & Frog transformation (#24)
+- [x] Wall Climbing - Spider transformation with directional wall jump (#25)
+
+**In Progress:**
+
+- [ ] Small Gaps - Ladybug transformation (#26)
+
+**Pull Requests:**
+
+- [x] PR #32: Water Zones & Swimming Mechanics
+- [x] PR #39: Wall Climb - Spider Ability
+- [x] PR #40: Polish - Wall Climb Mechanics
 
 ### Days 4-6 📅
 
@@ -271,14 +285,14 @@ refactor/ → Code refactoring
 
 ## 🎯 Milestones
 
-| Milestone             | Target Date | Status      | Issues     |
-| --------------------- | ----------- | ----------- | ---------- |
-| First Playable        | Day 1       | ✅ Complete | #1-4       |
-| Combat System         | Day 2       | ✅ Complete | #9-11, #13 |
-| Transformation (Core) | Day 3       | 📅 Planned  | #14-17     |
-| Special Abilities     | Day 4       | 📅 Planned  | #24-26     |
-| Polish & UI           | Day 5       | 📅 Planned  | TBD        |
-| Final Submission      | Day 6       | 📅 Planned  | TBD        |
+| Milestone             | Target Date | Status          | Issues     |
+| --------------------- | ----------- | --------------- | ---------- |
+| First Playable        | Day 1       | ✅ Complete     | #1-4       |
+| Combat System         | Day 2       | ✅ Complete     | #9-11, #13 |
+| Transformation (Core) | Day 3       | ✅ Complete     | #14-17     |
+| Special Abilities     | Day 4       | 🚧 In Progress  | #24-26     |
+| Polish & UI           | Day 5       | 📅 Planned      | TBD        |
+| Final Submission      | Day 6       | 📅 Planned      | TBD        |
 
 ---
 
