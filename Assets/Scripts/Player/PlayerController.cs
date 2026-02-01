@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private float _moveInput;
     private bool _isFacingRight = true;
-    
+
     [Header("Debug")] [Tooltip("Mostrar logs de entrada/salida")] [SerializeField]
     private bool debugLogs = false;
 
@@ -35,27 +35,27 @@ public class PlayerController : MonoBehaviour
     private float swimJumpCooldown = 0.3f;
 
     private float lastSwimJumpTime = -999f;
-    
+
     [Header("Wall Climbing - Spider")]
     [Tooltip("Velocidad de escalado en paredes/techo")]
     [Range(0.1f, 3f)]
-    [SerializeField] private float climbSpeed = 3f;
+    [SerializeField]
+    private float climbSpeed = 3f;
 
-    [Tooltip("Distancia de raycast para detectar superficies escalables")]
-    [SerializeField] private float wallCheckDistance = 0.6f;
+    [Tooltip("Distancia de raycast para detectar superficies escalables")] [SerializeField]
+    private float wallCheckDistance = 0.6f;
 
-    [Tooltip("Fuerza de wall jump (x: alejarse de pared, y: altura)")]
-    [SerializeField] private Vector2 wallJumpForce = new Vector2(6f, 10f);
+    [Tooltip("Fuerza de wall jump (x: alejarse de pared, y: altura)")] [SerializeField]
+    private Vector2 wallJumpForce = new Vector2(10f, 12f);
 
-    [Tooltip("Fuerza del salto automático al borde (Ledge Leap)")]
-    [SerializeField] private Vector2 ledgeLeapForce = new Vector2(5f, 5f);
+    [Tooltip("Fuerza del salto automático al borde (Ledge Leap)")] [SerializeField]
+    private Vector2 ledgeLeapForce = new Vector2(5f, 5f);
 
-    [Header("Visual Feedback")]
-    [Tooltip("Transform del model3DParent para rotar el modelo")]
-    [SerializeField] private Transform visualTransform;
+    [Header("Visual Feedback")] [Tooltip("Transform del model3DParent para rotar el modelo")] [SerializeField]
+    private Transform visualTransform;
 
-    [Tooltip("Velocidad de rotación del modelo (suavidad)")]
-    [SerializeField] private float rotationSpeed = 10f;
+    [Tooltip("Velocidad de rotación del modelo (suavidad)")] [SerializeField]
+    private float rotationSpeed = 10f;
 
     // Estado de climbing
     private bool _isClimbing = false;
@@ -66,6 +66,10 @@ public class PlayerController : MonoBehaviour
     // Flag Pattern: Comunicación Update → FixedUpdate
     private bool _shouldApplyClimbingPhysics = false;
     private Vector2 _climbingDirection = Vector2.zero;
+
+    // Wall jump cooldown (evita que movimiento horizontal sobrescriba el impulso)
+    private float _wallJumpTime = -999f;
+    private const float WALL_JUMP_COOLDOWN = 0.2f; // 200ms sin control horizontal
 
     // Life Cycle Methods
     void Start()
@@ -86,7 +90,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogWarning("[PlayerController] visualTransform no asignado! Rotación visual no funcionará.");
         }
-        
+
         // Ensure this GameObject has the "Player" tag
         ValidatePlayerTag();
 
@@ -97,7 +101,7 @@ public class PlayerController : MonoBehaviour
             health.OnTakeDamageWithKnockback += HandleKnockback;
         }
     }
-    
+
     void OnEnable()
     {
         // Suscribirse a eventos
@@ -105,16 +109,14 @@ public class PlayerController : MonoBehaviour
         WaterEvents.OnPlayerExitWater += HandleExitWater;
         WaterEvents.OnSwimStateChanged += HandleSwimStateChange;
     }
-    
+
     // Update is called once per frame
     void Update()
     {
         _isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, groundCheckRadius, groundLayer);
         _moveInput = Input.GetAxisRaw("Horizontal");
         Jump();
-        Debug.Log($"_isGrounded: {_isGrounded}");
-        Debug.Log($"_isClimbing: {_isClimbing}");
-        
+
         // === WALL CLIMBING SYSTEM ===
         HandleClimbing();
 
@@ -142,8 +144,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // Movimiento horizontal normal (solo si NO está climbing)
-            _rb.linearVelocity = new Vector2(_moveInput * moveSpeed, _rb.linearVelocity.y);
+            // 🔧 POLISH: NO aplicar movimiento horizontal durante wall jump cooldown
+            // Esto evita que se sobrescriba el impulso del wall jump
+            bool isInWallJumpCooldown = Time.time < _wallJumpTime + WALL_JUMP_COOLDOWN;
+
+            if (!isInWallJumpCooldown)
+            {
+                // Movimiento horizontal normal (solo si NO está climbing y NO en wall jump)
+                _rb.linearVelocity = new Vector2(_moveInput * moveSpeed, _rb.linearVelocity.y);
+            }
         }
     }
 
@@ -166,7 +175,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Utils Methods
-    
+
     private void HandleKnockback(Vector2 direction, float damage)
     {
         // Apply knockback and stun player
@@ -206,6 +215,9 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+        // No permitir jump normal si está climbing (wall jump maneja eso)
+        if (_isClimbing) return;
+
         if (Input.GetButtonDown("Jump") && _isGrounded)
         {
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpForce);
@@ -225,7 +237,7 @@ public class PlayerController : MonoBehaviour
         isInWater = inWater;
         Debug.Log($"[PlayerController] In water: {inWater}");
     }
-    
+
     private void HandleEnterWater(GameObject player, bool canSwim)
     {
         if (player != gameObject) return;
@@ -237,7 +249,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"[PlayerController] Entered water. CanSwim: {canSwim}");
         }
     }
-    
+
     private void HandleExitWater(GameObject player)
     {
         if (player != gameObject) return;
@@ -249,7 +261,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"[PlayerController] Exited water");
         }
     }
-    
+
     private void HandleSwimStateChange(GameObject player, bool canSwim)
     {
         if (player != gameObject) return;
@@ -261,7 +273,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"[PlayerController] Swim state changed. CanSwim: {canSwim}");
         }
     }
-    
+
     /// <summary>
     /// Detecta si hay una superficie escalable cerca (pared, techo).
     /// Usa 4 raycasts para detectar en todas las direcciones.
@@ -292,7 +304,8 @@ public class PlayerController : MonoBehaviour
 
             if (debugLogs)
             {
-                Debug.Log($"[PlayerController] Surface detected UP (ceiling) - PRIORITY (input up). Normal: {surfaceNormal}");
+                Debug.Log(
+                    $"[PlayerController] Surface detected UP (ceiling) - PRIORITY (input up). Normal: {surfaceNormal}");
             }
 
             return true;
@@ -336,7 +349,7 @@ public class PlayerController : MonoBehaviour
         // No hay superficie escalable cerca
         return false;
     }
-    
+
     /// <summary>
     /// Convierte el normal de una superficie a un ángulo de rotación.
     /// Usa Atan2 para calcular el ángulo del vector normal.
@@ -384,7 +397,7 @@ public class PlayerController : MonoBehaviour
         // DEFAULT: Superficie diagonal (rampa, etc.)
         return rotation;
     }
-    
+
     /// <summary>
     /// Calcula la dirección de movimiento en climbing (NO aplica física).
     /// Llamado desde Update() para calcular, física se aplica en FixedUpdate().
@@ -456,7 +469,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
     /// <summary>
     /// Maneja el wall jump (saltar desde la pared).
     /// Player se despega de la pared con impulso horizontal + vertical.
@@ -475,28 +488,43 @@ public class PlayerController : MonoBehaviour
             // 🔧 FIX: Desactivar flag de climbing physics
             _shouldApplyClimbingPhysics = false;
 
-            // Calcular dirección horizontal del salto
-            // Si está mirando derecha (pared a la derecha), saltar hacia la izquierda
-            // Si está mirando izquierda (pared a la izquierda), saltar hacia la derecha
-            float jumpDirX = _isFacingRight ? -1f : 1f;
+            // 🔧 POLISH: Calcular dirección basada en INPUT del jugador
+            // Le da control direccional al player durante el wall jump
+            // PARED: A + Space → Saltar izquierda arriba | D + Space → Saltar derecha arriba
+            // TECHO: A + Space → Saltar izquierda abajo  | D + Space → Saltar derecha abajo
+            // Solo Space → Saltar recto (arriba en pared, abajo en techo)
 
-            // Aplicar velocidad de wall jump
+            // 1. Leer input horizontal al momento del salto
+            float horizontalInput = Input.GetAxisRaw("Horizontal");
+
+            // 2. Detectar si está en techo (normal apunta hacia abajo)
+            bool isCeiling = _currentSurfaceNormal.y < -0.5f;
+
+            // 3. Limpiar velocidad previa (para control consistente)
+            _rb.linearVelocity = Vector2.zero;
+
+            // 4. Aplicar impulso de wall jump basado en input
+            // Si está en techo, invertir Y para caer hacia abajo
+            float verticalForce = isCeiling ? -wallJumpForce.y : wallJumpForce.y;
+
             Vector2 wallJumpVelocity = new Vector2(
-                jumpDirX * wallJumpForce.x,  // Horizontal: alejarse de pared
-                wallJumpForce.y               // Vertical: altura del salto
+                horizontalInput * wallJumpForce.x, // Horizontal: dirección presionada por el jugador
+                verticalForce                       // Vertical: arriba en pared, abajo en techo
             );
 
             _rb.linearVelocity = wallJumpVelocity;
-            
+
+            // Marcar timestamp del wall jump (cooldown para evitar sobrescritura)
+            _wallJumpTime = Time.time;
+
             if (debugLogs)
             {
-                Debug.Log($"[PlayerController] Wall Jump! Direction: {jumpDirX}, Velocity: {wallJumpVelocity}");
+                Debug.Log($"[PlayerController] Wall Jump! Input: {horizontalInput}, IsCeiling: {isCeiling}, Velocity: {wallJumpVelocity}");
             }
-
 
         }
     }
-    
+
     /// <summary>
     /// Maneja todo el sistema de wall climbing.
     /// Verifica habilidad, detecta superficies, activa/desactiva climbing y wall jump.
@@ -532,11 +560,11 @@ public class PlayerController : MonoBehaviour
                 {
                     // LEDGE LEAP!
                     // Calcular dirección hacia el muro (opuesto al normal anterior)
-                    float dirX = -Mathf.Sign(_currentSurfaceNormal.x); 
+                    float dirX = -Mathf.Sign(_currentSurfaceNormal.x);
 
                     // Aplicar fuerza de salto hacia la plataforma
                     _rb.linearVelocity = new Vector2(dirX * ledgeLeapForce.x, ledgeLeapForce.y);
-                    
+
                     if (debugLogs) Debug.Log($"[PlayerController] Ledge Leap! Force: {_rb.linearVelocity}");
 
                     // Salir de climbing para que la física/gravedad haga el resto y aterrice
@@ -549,13 +577,13 @@ public class PlayerController : MonoBehaviour
             float verticalInput = Input.GetAxis("Vertical");
             float horizontalInput = Input.GetAxis("Horizontal");
 
-            // 🔧 FIX: Solo continuar climbing si HAY input de movimiento
-            // Esto permite "soltar" el techo al dejar de presionar teclas
+            // 🔧 POLISH: Mantener climbing aunque no haya input (comportamiento "sticky")
+            // Spider se queda pegada hasta que presiones Jump o pierdas superficie
             bool hasMovementInput = Mathf.Abs(verticalInput) > 0.1f || Mathf.Abs(horizontalInput) > 0.1f;
 
-            // Si ya está climbing, requiere input para continuar (permite "soltar")
+            // Si ya está climbing, mantener pegado (aunque no haya input)
             // Si no está climbing, solo activar si hay input
-            bool wantsToClimb = hasMovementInput;
+            bool wantsToClimb = _isClimbing || hasMovementInput;
 
             // NO permitir climbing si está en el suelo (evitar "pegarse" al caminar)
             bool canStartClimbing = !_isGrounded;
@@ -579,7 +607,7 @@ public class PlayerController : MonoBehaviour
             ForceExitClimbing();
         }
     }
-    
+
     /// <summary>
     /// Activa el estado de climbing y calcula dirección de movimiento.
     /// La física se aplica en FixedUpdate().
