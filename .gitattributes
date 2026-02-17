@@ -1,0 +1,62 @@
+# Unity specific gitattributes to ensure consistent line endings and binary handling
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Unity YAML assets should be treated as text
+*.mat text merge=unityyamlmerge eol=lf
+*.anim text merge=unityyamlmerge eol=lf
+*.unity text merge=unityyamlmerge eol=lf
+*.prefab text merge=unityyamlmerge eol=lf
+*.physicsMaterial2D text merge=unityyamlmerge eol=lf
+*.physicMaterial text merge=unityyamlmerge eol=lf
+*.asset text merge=unityyamlmerge eol=lf
+*.meta text merge=unityyamlmerge eol=lf
+*.controller text merge=unityyamlmerge eol=lf
+
+# Image formats
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.tif binary
+*.tiff binary
+*.tga binary
+*.psd binary
+*.bmp binary
+*.exr binary
+
+# Audio formats
+*.mp3 binary
+*.wav binary
+*.aiff binary
+*.aif binary
+*.ogg binary
+
+# Video formats
+*.mov binary
+*.mp4 binary
+
+# 3D models
+*.fbx binary
+*.obj binary
+*.blend binary
+*.max binary
+*.ma binary
+
+# Font formats
+*.ttf binary
+*.otf binary
+*.dfont binary
+
+# Archives etc.
+*.zip binary
+*.7z binary
+*.gz binary
+*.rar binary
+*.tar binary
+
+# Unity specific binaries
+*.dll binary
+*.so binary
+*.dylib binary

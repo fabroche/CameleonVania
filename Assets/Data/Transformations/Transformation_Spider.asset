@@ -15,7 +15,7 @@ MonoBehaviour:
   transformName: Spider
   modelPrefab: {fileID: 1443814758642644241, guid: 79545c1de765f184e8a2518ea1b87950, type: 3}
   speedMultiplier: 0.5
-  jumpMultiplier: 0.1
+  jumpMultiplier: 1
   heightMultiplier: 1
   widthMultiplier: 2
   healthMultiplier: 1
